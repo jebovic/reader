@@ -1,0 +1,7 @@
+parameters:
+#    reader_admin.example.class: Reader\Bundle\AdminBundle\Example
+
+services:
+    reader_admin.firewall.request_matcher:
+        class: Symfony\Component\HttpFoundation\RequestMatcher
+        arguments: ["/", "admin\.*"]

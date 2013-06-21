@@ -22,18 +22,18 @@ security:
             pattern:  ^/demo/secured/login$
             security: false
 
-        secured_area:
-            pattern:    ^/demo/secured/
+        admin:
+            pattern:    ^/
+            request_matcher: reader_admin.firewall.request_matcher
+            anonymous: ~
+            provider: in_memory
             form_login:
-                check_path: _security_check
-                login_path: _demo_login
+                check_path: reader_admin_login_check
+                login_path: reader_admin_login
             logout:
-                path:   _demo_logout
-                target: _demo
-            #anonymous: ~
-            #http_basic:
-            #    realm: "Secured Demo Area"
+                path:   reader_admin_logout
+                target: /
 
     access_control:
-        - { path: ^/demo/secured/hello/admin/, roles: ROLE_ADMIN }
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY, host: %admin_host% }
+        - { path: ^/, roles: ROLE_ADMIN, host: %admin_host% }

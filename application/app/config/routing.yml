@@ -1,0 +1,10 @@
+reader:
+    resource: "@ReaderBundle/Resources/config/routing.yml"
+    host:     '%public_host%'
+    prefix:   /
+
+reader_admin:
+    resource: "@ReaderAdminBundle/Resources/config/routing.yml"
+    host:     '%admin_host%'
+    prefix:   /
+

@@ -1,0 +1,15 @@
+reader_admin_dashboard:
+    pattern:  /
+    defaults: { _controller: ReaderAdminBundle:Default:dashboard }
+
+reader_admin_login:
+    pattern:  /login
+    defaults: { _controller: ReaderAdminBundle:Default:login }
+
+reader_admin_login_check:
+    pattern:  /login_check
+    defaults: { _controller: ReaderAdminBundle:Default:securityCheck }
+
+reader_admin_logout:
+    pattern:  /logout
+    defaults: { _controller: ReaderAdminBundle:Default:logout }

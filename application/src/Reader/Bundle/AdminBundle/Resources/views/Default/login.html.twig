@@ -1,0 +1,23 @@
+{% extends "ReaderAdminBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+    {{  parent() }}
+    {% stylesheets
+    "bundles/readeradmin/css/login.less" filter="less,cssrewrite" %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form action="{{ path("reader_admin_login_check") }}" method="post" id="login" class="form-signin">
+            <h1 class="title">Authentication</h1>
+            {% if error %}
+                <div class="alert alert-error">{{ error.message }}</div>
+            {% endif %}
+            <input type="text" class="input-block-level" placeholder="Username" id="username" name="_username" value="{{ last_username }}">
+            <input type="password" class="input-block-level" placeholder="Password" id="password" name="_password">
+            <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+        </form>
+    </div>
+{% endblock %}
