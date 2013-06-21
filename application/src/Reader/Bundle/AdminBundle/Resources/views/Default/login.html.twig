@@ -1,12 +1,4 @@
-{% extends "ReaderAdminBundle::layout.html.twig" %}
-
-{% block stylesheets %}
-    {{  parent() }}
-    {% stylesheets
-    "bundles/readeradmin/css/login.less" filter="less,cssrewrite" %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
-{% endblock %}
+{% extends "ReaderAdminBundle::layout_login.html.twig" %}
 
 {% block content %}
     <div class="container">

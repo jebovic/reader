@@ -1,3 +1,7 @@
+reader_design:
+    resource: "@ReaderDesignBundle/Resources/config/routing.yml"
+    prefix:   /
+
 reader:
     resource: "@ReaderBundle/Resources/config/routing.yml"
     host:     '%public_host%'

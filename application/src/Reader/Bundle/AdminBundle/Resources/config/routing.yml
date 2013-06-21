@@ -13,3 +13,23 @@ reader_admin_login_check:
 reader_admin_logout:
     pattern:  /logout
     defaults: { _controller: ReaderAdminBundle:Default:logout }
+
+reader_admin_site:
+    pattern:  /site
+    defaults: { _controller: ReaderAdminBundle:Site:index }
+
+reader_admin_site_add:
+    pattern:  /site/add
+    defaults: { _controller: ReaderAdminBundle:Site:add }
+
+reader_admin_category_add:
+    pattern:  /category/add
+    defaults: { _controller: ReaderAdminBundle:Category:add }
+
+reader_admin_site_update:
+    pattern:  /site/update/{id}
+    defaults: { _controller: ReaderAdminBundle:Site:update }
+
+reader_admin_category_update:
+    pattern:  /category/update/{id}
+    defaults: { _controller: ReaderAdminBundle:Category:update }

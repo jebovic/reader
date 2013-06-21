@@ -4,7 +4,11 @@ src/Reader/Bundle/[...]Bundle
 
 # ReaderBundle
 
-Contains default views and routing like homepage, sites ...
+Contains model logic
+
+# DesignBundle
+
+Contains public site views and controllers
 
 # AdminBundle
 

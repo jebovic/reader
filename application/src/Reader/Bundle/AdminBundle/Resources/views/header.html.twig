@@ -1,0 +1,25 @@
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="{{ path( 'reader_admin_dashboard') }}">Reader Admin</a>
+            <div class="nav-collapse collapse">
+                <div class="btn-group pull-right">
+                    <a class="btn" href="#" data-toggle="dropdown">{{app.user.username}}</a>
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path( 'reader_admin_logout' ) }}">Logout</a></li>
+                    </ul>
+                </div>
+                <ul class="nav">
+                    <li{% if active == 'dashboard' %} class="active"{% endif %}><a href="{{ path( 'reader_admin_dashboard') }}">Dashboard</a></li>
+                    <li{% if active == 'site' %} class="active"{% endif %}><a href="{{ path( 'reader_admin_site') }}">Sites</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+</div>

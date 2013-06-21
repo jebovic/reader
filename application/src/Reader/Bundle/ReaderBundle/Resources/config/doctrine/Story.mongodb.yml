@@ -1,0 +1,19 @@
+Reader\Bundle\ReaderBundle\Document\Story:
+    repositoryClass: Reader\Bundle\ReaderBundle\Repository\StoryRepository
+    fields:
+        id:
+            id:  true
+        text:
+            type: string
+        textSum:
+            type: string
+        grabbed:
+            type: timestamp
+        page:
+            type: int
+        position:
+            type: int
+    referenceOne:
+        site:
+            targetDocument: Reader\Bundle\ReaderBundle\Document\Site
+            nullable: false

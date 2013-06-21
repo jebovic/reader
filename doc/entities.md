@@ -12,18 +12,27 @@
 * id
 * identifier
 * title
-* short_title
+* shortTitle
 * url
-* url_pattern
-* url_first_page
-* url_step
-* grab_selector
-* allowed_tags
-* image_tag
+* urlPattern
+* urlFirstPage
+* urlStep
+* grabSelector
+* allowedTags
+* imageUrl
+* categories : category.id, 1-N
+
+# Category [category]
+
+* id
+* identifier
+* name
+* parent : category.id, 1-1
 
 # Story [story]
 
 * id
 * text
+* textSum
 * site : site.id, 1-1
 * grabbed

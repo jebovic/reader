@@ -1,0 +1,21 @@
+{% extends "ReaderAdminBundle::layout.html.twig" %}
+
+{% block header %}
+    {% set active = 'site' %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12 light padded">
+                <h1>Update a category in the catalog</h1>
+                <form id="categoryForm" class="form-horizontal" action="#" method="post" {{ form_enctype(form) }} novalidate >
+                    {{ form_widget(form, {'form_type': 'horizontal'}) }}
+                    <button type="submit" class="btn btn-success">Update</button>
+                    <a href="{{ path('reader_admin_site') }}" class="btn btn-danger">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

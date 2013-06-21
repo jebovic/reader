@@ -1,0 +1,31 @@
+Reader\Bundle\ReaderBundle\Document\Site:
+    repositoryClass: Reader\Bundle\ReaderBundle\Repository\SiteRepository
+    fields:
+        id:
+            id:  true
+        identifier:
+            type: string
+        title:
+            type: string
+        shortTitle:
+            type: string
+        url:
+            type: string
+        urlPattern:
+            type: string
+        urlFirstPage:
+            type: int
+        urlStep:
+            type: int
+        grabSelector:
+            type: string
+        allowedTags:
+            type: string
+        imageTag:
+            type: string
+        featured:
+            type: boolean
+    referenceMany:
+        categories:
+            targetDocument: Reader\Bundle\ReaderBundle\Document\Category
+            nullable: true

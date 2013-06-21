@@ -1,0 +1,110 @@
+{% extends "ReaderAdminBundle::layout.html.twig" %}
+
+{% block header %}
+    {% set active = 'site' %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% for flashMessage in app.session.flashbag.get('successSiteAdd') %}
+    {% set modal = "successSiteAdd" %}
+{% endfor %}
+{% for flashMessage in app.session.flashbag.get('successCategoryAdd') %}
+    {% set modal = "successCategoryAdd" %}
+{% endfor %}
+
+{% block content %}
+    <div class="container-fluid paddedTop paddedBottom">
+        <div class="row-fluid">
+            <div class="span6 light padded">
+                <h2>Sites list</h2>
+                {% for flashMessage in app.session.flashbag.get('successSiteAdd') %}
+                    <div class="alert alert-block alert-info">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <p><strong>Site added</strong></p>
+                        <p>The site has been added in the catalog.</p>
+                    </div>
+                {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('successSiteUpdate') %}
+                    <div class="alert alert-block alert-info">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <p><strong>Site updated</strong></p>
+                        <p>The site has been updated in the catalog.</p>
+                    </div>
+                {% endfor %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Categories</th>
+                        <th width="1"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for site in sites %}
+                        <tr>
+                            <td>{{ site.title }}</td>
+                            <td>
+                                {% for category in site.categories %}
+                                    {{ category.name }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td width="1">
+                                <a href="{{ path('reader_admin_site_update', { 'id' : site.id }) }}" class="btn"><i class="icon-pencil"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <a class="btn btn-primary" href="{{ path('reader_admin_site_add') }}"><i class="icon-plus icon-white"></i>&nbsp;Add site</a>
+            </div>
+            <div class="span6 light padded">
+                <h2>Categories list</h2>
+                {% for flashMessage in app.session.flashbag.get('successCategoryAdd') %}
+                    <div class="alert alert-block alert-info">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <p><strong>Category added</strong></p>
+                        <p>The category has been added and is available for sites in the catalog.</p>
+                    </div>
+                {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('successCategoryUpdate') %}
+                    <div class="alert alert-block alert-info">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <p><strong>Category updated</strong></p>
+                        <p>The category has been updated and is available for sites in the catalog.</p>
+                    </div>
+                {% endfor %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Identifier</th>
+                        <th width="1"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ category.name }}</td>
+                            <td>{{ category.identifier }}</td>
+                            <td width="1">
+                                <a href="{{ path('reader_admin_category_update', { 'id' : category.id }) }}" class="btn"><i class="icon-pencil"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <a class="btn btn-primary" href="{{ path('reader_admin_category_add') }}"><i class="icon-plus icon-white"></i>&nbsp;Add category</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function() {
+        });
+    </script>
+{% endblock %}

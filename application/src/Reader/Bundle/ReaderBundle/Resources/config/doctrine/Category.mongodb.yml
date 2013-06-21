@@ -1,0 +1,13 @@
+Reader\Bundle\ReaderBundle\Document\Category:
+    repositoryClass: Reader\Bundle\ReaderBundle\Repository\CategoryRepository
+    fields:
+        id:
+            id:  true
+        identifier:
+            type: string
+        name:
+            type: string
+    referenceOne:
+        parent:
+            targetDocument: Reader\Bundle\ReaderBundle\Document\Category
+            nullable: true

@@ -1,0 +1,16 @@
+{% extends "ReaderAdminBundle::layout.html.twig" %}
+
+{% block header %}
+    {% set active = 'site' %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid light">
+        <h1>Add a site in the catalog</h1>
+        <form id="siteForm" class="form-horizontal" action="#" method="post" {{ form_enctype(form) }} novalidate >
+            {{ form_widget(form, {'form_type': 'horizontal'}) }}
+            <button type="submit" class="btn btn-primary"><i class="icon-plus icon-white"></i>&nbsp;Add</button>
+        </form>
+    </div>
+{% endblock %}

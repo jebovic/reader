@@ -11,7 +11,7 @@
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         {% stylesheets
-        "bundles/readeradmin/css/style.less" filter="less,cssrewrite" %}
+        "bundles/readeradmin/css/login.less" filter="less,cssrewrite" %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
     {% endblock %}
@@ -22,17 +22,11 @@
 
 <body>
 
-    {% block header %}
-        {% include "ReaderAdminBundle::header.html.twig" %}
-    {% endblock %}
+{% block content %}{% endblock %}
 
-    {% block content %}{% endblock %}
-
-    <!-- Javascripts -->
-    {% block javascript %}
-        <script src="{{ asset('js/jquery.js') }}"></script>
-        <script src="{{ asset('js/bootstrap.js') }}"></script>
-    {% endblock %}
+<!-- Javascripts -->
+<script src="{{ asset('js/jquery.js') }}"></script>
+<script src="{{ asset('js/bootstrap.js') }}"></script>
 
 </body>
 </html>

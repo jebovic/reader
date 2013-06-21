@@ -1,5 +1,10 @@
 {% extends "ReaderAdminBundle::layout.html.twig" %}
 
+{% block header %}
+    {% set active = 'dashboard' %}
+    {{ parent() }}
+{% endblock %}
+
 {% block content %}
     <div class="container-fluid light">
         <h1>Welcome to the Reader admin</h1>
