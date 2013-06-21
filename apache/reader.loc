@@ -1,0 +1,26 @@
+<VirtualHost *:80>
+    <Directory /web/reader/application/web>
+        Options FollowSymLinks
+        AllowOverride None
+    </Directory>
+    DirectoryIndex index_dev.php
+    RewriteEngine On
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-d
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-f
+    RewriteRule ^ /index_dev.php [L]
+    DocumentRoot /web/reader/application/web
+    ServerName reader.loc
+
+    <ifModule mod_headers.c>
+        <filesMatch "\.(ico|jpe?g|png|gif|swf)$">
+            Header set Cache-Control "max-age=2592000, public"
+        </filesMatch>
+        <filesMatch "\.(css)$">
+            Header set Cache-Control "max-age=604800, public"
+        </filesMatch>
+        <filesMatch "\.(js)$">
+            Header set Cache-Control "max-age=604800, public"
+        </filesMatch>
+    </ifModule>
+
+</VirtualHost>
