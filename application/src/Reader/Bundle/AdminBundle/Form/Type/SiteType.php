@@ -72,6 +72,7 @@ class SiteType extends AbstractType
             'label' => 'Categories',
             'property' => 'name',
             'multiple' => true,
+            'expanded' => true,
             'class' => 'Reader\Bundle\ReaderBundle\Document\Category',
             'query_builder' => function( CategoryRepository $er ) {
                 return $er->createQueryBuilder('c')

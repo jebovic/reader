@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new Reader\Bundle\ReaderBundle\ReaderBundle(),
             new Bc\Bundle\BootstrapBundle\BcBootstrapBundle(),
             new Reader\Bundle\DesignBundle\ReaderDesignBundle(),
+            new Reader\Bundle\GrabberBundle\ReaderGrabberBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

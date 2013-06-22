@@ -1,0 +1,8 @@
+{% for story in stories %}
+    <div class="story">
+        <a class="btn btn-danger btn-mini pull-right delete-story" href="#" data-target="{{ path('reader_admin_story_delete', { 'id': story.id }) }}" onclick="deleteStory(this); return false;">
+            <i class="icon-white icon-trash"></i>
+        </a>
+        {{ story.text|raw }}
+    </div>
+{% endfor %}

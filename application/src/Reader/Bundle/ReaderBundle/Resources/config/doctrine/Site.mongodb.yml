@@ -28,4 +28,5 @@ Reader\Bundle\ReaderBundle\Document\Site:
     referenceMany:
         categories:
             targetDocument: Reader\Bundle\ReaderBundle\Document\Category
+            sort: { identifier: asc }
             nullable: true

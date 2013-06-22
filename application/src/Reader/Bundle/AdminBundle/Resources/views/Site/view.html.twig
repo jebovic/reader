@@ -1,0 +1,138 @@
+{% extends "ReaderAdminBundle::layout.html.twig" %}
+
+{% block header %}
+    {% set active = 'site' %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span6 light padded">
+                <h2>{{ site.title }}</h2>
+                <p><strong>Identifier</strong> : {{ site.identifier }}</p>
+                <p><strong>Short title</strong> : {{ site.shortTitle }}</p>
+                <p><strong>Site URL</strong> : {{ site.url }}</p>
+                <p><strong>URL pattern</strong> : {{ site.urlPattern }}</p>
+                <p><strong>URL first page</strong> : {{ site.urlFirstPage }}</p>
+                <p><strong>URL step</strong> : {{ site.urlStep }}</p>
+                <p><strong>Grab CSS selector</strong> : {{ site.grabSelector }}</p>
+                <p><strong>Allowed tags</strong> : {{ site.allowedTags }}</p>
+                <p><strong>Image tag</strong> : {{ site.imageTag }}</p>
+                <p><strong>Categories</strong> :
+                    {% for category in site.categories %}
+                        <span class="label">{{ category.name }}</span>{% if not loop.last %}&nbsp;{% endif %}
+                    {% endfor %}
+                </p>
+                <p>
+                    <a class="btn btn-primary" href="{{ path( 'reader_admin_site_update', { 'id': site.id }) }}"><i class="icon-pencil icon-white"></i>&nbsp;Modify</a>
+                </p>
+            </div>
+            <div class="span6 light padded">
+                <a id="deleteStories" class="btn btn-danger pull-right btn-stories" href="{{ path('reader_admin_site_purge', { 'id': site.id }) }}">
+                    <i class="icon-white icon-trash"></i>&nbsp;Purge stories
+                </a>
+                <a id="grabStories" class="btn btn-primary pull-right btn-stories" href="#"><i class="icon-white icon-refresh"></i>&nbsp;Grab more stories</a>
+                <h2>Stories{% if storiesCount %} <small>({{ storiesCount }})</small>{% endif %}</h2>
+                {% for flashMessage in app.session.flashbag.get('successStoriesDelete') %}
+                    <div class="alert alert-block alert-info">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <p><strong>Stories deleted</strong></p>
+                        <p>{{ flashMessage }}</p>
+                    </div>
+                {% endfor %}
+                <div class="alert alert-block alert-info hide" id="grabbing">
+                    <button type="button" class="close">&times;</button>
+                    <div id="grabbingProgress"></div>
+                    <div id="grabbingReport"></div>
+                    <p>
+                        <a id="reloadButton" class="btn hide" href="{{ path('reader_admin_site_view', { 'id': site.id }) }}">
+                            <i class="icon-refresh"></i>&nbsp;Reload the page
+                        </a>
+                    </p>
+                </div>
+                {% if storiesCount %}
+                    <script type="text/javascript">
+                        function deleteStory(link){
+                            var thisLink = link;
+                            $.ajax({
+                                url: thisLink.getAttribute('data-target'),
+                                success: function(data) {
+                                    if ( data.success == true )
+                                    {
+                                        thisLink.className = thisLink.className + " disabled";
+                                        thisLink.parentNode.className = thisLink.parentNode.className + " disabled";
+                                    }
+                                }
+                            });
+                        }
+                    </script>
+                    <div class="storiesPagination"></div>
+                    <div id="stories"></div>
+                    <div class="storiesPagination"></div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/readeradmin/js/jquery.simplePagination.js') }}"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $('.alert button.close').click(function() {
+                $(this).parent('div').hide();
+            })
+            getStories( 1 );
+            $('.storiesPagination').pagination({
+                items: {{ storiesCount }},
+                itemsOnPage: 10,
+                cssStyle: 'pagination pagination-centered',
+                onPageClick: function(pageNumber) {
+                    getStories( pageNumber );
+                }
+            });
+            var startPage = 1;
+            $('#grabStories').click( function(e){
+                e.preventDefault();
+                $('#grabbingProgress').html('');
+                $('#grabbingReport').html('');
+                grabStories( startPage );
+            });
+            function grabStories( page ) {
+                $('#grabbing').show();
+                $('#grabbingProgress').html( 'Grabbing page ' + page);
+                $.ajax({
+                    url: '/site/grab/{{ site.id }}/' + page,
+                    success: function(data) {
+                        if ( data.success == true )
+                        {
+                            $('#grabbingReport').append( '<strong>' + data.count + ' stories</srong> grabbed on page #' + page + '<br>');
+                            var nextPage = page + 1;
+                            if ( nextPage < 5 )
+                            {
+                                grabStories( nextPage );
+                            }
+                            else
+                            {
+                                $('#reloadButton').show();
+                            }
+                        }
+                    }
+                });
+            }
+            function getStories( page ) {
+                $.ajax({
+                    url: '/site/stories/{{ site.id }}/' + page,
+                    success: function(data) {
+                        if ( data.success != false )
+                        {
+                            $('#stories').html( data );
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+{% endblock %}

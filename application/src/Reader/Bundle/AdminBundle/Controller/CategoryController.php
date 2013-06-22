@@ -27,7 +27,7 @@ class CategoryController extends Controller
                 $doctrine->persist( $category );
                 $doctrine->flush();
 
-                $this->get('session')->getFlashBag()->add( 'successCategoryAdd', 1 );
+                $this->get('session')->getFlashBag()->add( 'successCategoryAdd', $category->getName() . ' has been created' );
                 return $this->redirect( $this->generateUrl( 'reader_admin_site' ) );
             }
         }
@@ -67,7 +67,7 @@ class CategoryController extends Controller
                     $doctrine = $this->get('doctrine_mongodb')->getManager();
                     $doctrine->flush();
 
-                    $this->get('session')->getFlashBag()->add( 'successCategoryUpdate', 1 );
+                    $this->get('session')->getFlashBag()->add( 'successCategoryUpdate', $category->getName() . ' has been updated' );
                     return $this->redirect( $this->generateUrl( 'reader_admin_site' ) );
                 }
             }
@@ -80,6 +80,43 @@ class CategoryController extends Controller
                     )
                 );
             }
+        }
+        return $this->redirect( $this->generateUrl('reader_admin_site') );
+    }
+
+    /**
+     * Delete a category
+     * @param string $id
+     * @return mixed
+     */
+    public function deleteAction($id)
+    {
+        $doctrine           = $this->get('doctrine_mongodb');
+        $categoryRepository = $doctrine->getRepository('ReaderBundle:Category');
+        $category           = $categoryRepository->find( $id );
+
+        if ( !is_null( $category ) )
+        {
+            $dm = $this->get('doctrine_mongodb')->getManager();
+            $siteRepository = $doctrine->getRepository('ReaderBundle:Site');
+            $sites = $siteRepository->findAll();
+
+            if ( !is_null( $sites ) && !empty( $sites ) )
+            {
+                foreach( $sites as $site )
+                {
+                    $site->removeCategory($category);
+                    $dm->flush();
+                    $this->get('session')->getFlashBag()->add(
+                        'successSiteUpdate',
+                        $site->getTitle() . ' categories updated'
+                    );
+                }
+            }
+            $categoryName = $category->getName();
+            $dm->remove($category);
+            $dm->flush();
+            $this->get('session')->getFlashBag()->add( 'successCategoryDelete', $categoryName . ' has been deleted' );
         }
         return $this->redirect( $this->generateUrl('reader_admin_site') );
     }

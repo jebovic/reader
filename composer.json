@@ -36,7 +36,8 @@
         "doctrine/mongodb-odm-bundle": "3.0.*@dev",
         "braincrafted/bootstrap-bundle": "dev-master",
         "jquery/jquery": "1.9.*",
-        "twitter/bootstrap": "2.3.*"
+        "twitter/bootstrap": "2.3.*",
+        "fabpot/goutte": "dev-master"
     },
     "config": {
         "bin-dir": "application/bin",

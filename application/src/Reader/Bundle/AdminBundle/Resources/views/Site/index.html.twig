@@ -22,14 +22,21 @@
                     <div class="alert alert-block alert-info">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                         <p><strong>Site added</strong></p>
-                        <p>The site has been added in the catalog.</p>
+                        <p>{{ flashMessage }}</p>
                     </div>
                 {% endfor %}
                 {% for flashMessage in app.session.flashbag.get('successSiteUpdate') %}
                     <div class="alert alert-block alert-info">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                         <p><strong>Site updated</strong></p>
-                        <p>The site has been updated in the catalog.</p>
+                        <p>{{ flashMessage }}</p>
+                    </div>
+                {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('successSiteDelete') %}
+                    <div class="alert alert-block alert-info">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <p><strong>Site deleted</strong></p>
+                        <p>{{ flashMessage }}</p>
                     </div>
                 {% endfor %}
                 <table class="table">
@@ -37,20 +44,21 @@
                     <tr>
                         <th>Title</th>
                         <th>Categories</th>
-                        <th width="1"></th>
+                        <th style="width: 100px;"></th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for site in sites %}
                         <tr>
-                            <td>{{ site.title }}</td>
+                            <td><a href="{{ path('reader_admin_site_view', { 'id': site.id }) }}">{{ site.title }}</a></td>
                             <td>
                                 {% for category in site.categories %}
-                                    {{ category.name }}{% if not loop.last %}, {% endif %}
+                                    <span class="label">{{ category.name }}</span>{% if not loop.last %}&nbsp;{% endif %}
                                 {% endfor %}
                             </td>
-                            <td width="1">
-                                <a href="{{ path('reader_admin_site_update', { 'id' : site.id }) }}" class="btn"><i class="icon-pencil"></i></a>
+                            <td>
+                                <a href="{{ path('reader_admin_site_update', { 'id' : site.id }) }}" class="btn"><i class="icon-pencil"></i></a>&nbsp;
+                                <a href="{{ path('reader_admin_site_delete', { 'id' : site.id }) }}" class="btn btn-danger"><i class="icon-trash icon-white"></i></a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -64,14 +72,21 @@
                     <div class="alert alert-block alert-info">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                         <p><strong>Category added</strong></p>
-                        <p>The category has been added and is available for sites in the catalog.</p>
+                        <p>{{ flashMessage }}</p>
                     </div>
                 {% endfor %}
                 {% for flashMessage in app.session.flashbag.get('successCategoryUpdate') %}
                     <div class="alert alert-block alert-info">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                         <p><strong>Category updated</strong></p>
-                        <p>The category has been updated and is available for sites in the catalog.</p>
+                        <p>{{ flashMessage }}</p>
+                    </div>
+                {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('successCategoryDelete') %}
+                    <div class="alert alert-block alert-info">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <p><strong>Category deleted</strong></p>
+                        <p>{{ flashMessage }}</p>
                     </div>
                 {% endfor %}
                 <table class="table">
@@ -79,7 +94,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Identifier</th>
-                        <th width="1"></th>
+                        <th style="width: 100px;"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -87,8 +102,9 @@
                         <tr>
                             <td>{{ category.name }}</td>
                             <td>{{ category.identifier }}</td>
-                            <td width="1">
-                                <a href="{{ path('reader_admin_category_update', { 'id' : category.id }) }}" class="btn"><i class="icon-pencil"></i></a>
+                            <td>
+                                <a href="{{ path('reader_admin_category_update', { 'id' : category.id }) }}" class="btn"><i class="icon-pencil"></i></a>&nbsp;
+                                <a href="{{ path('reader_admin_category_delete', { 'id' : category.id }) }}" class="btn btn-danger"><i class="icon-trash icon-white"></i></a>
                             </td>
                         </tr>
                     {% endfor %}

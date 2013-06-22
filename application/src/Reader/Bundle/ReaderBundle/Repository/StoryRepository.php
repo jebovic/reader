@@ -12,4 +12,39 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class StoryRepository extends DocumentRepository
 {
+    public function findBySite( $siteId , $offset = false, $limit = false)
+    {
+        $qb = $this->createQueryBuilder()
+            ->field('site.id')->equals( $siteId )
+            ->sort('page', 'asc')
+            ->sort('position', 'asc')
+            ->sort('grabbed', 'desc');
+        if ( $offset )
+        {
+            $qb->skip($offset);
+        }
+        if ( $limit )
+        {
+            $qb->limit($limit);
+        }
+        $query      = $qb->getQuery();
+        $results    = $query->execute();
+        $searchHits = array();
+        foreach( $results as $searchHit )
+        {
+            $searchHits[] = $searchHit;
+        }
+
+        return $searchHits;
+    }
+
+    public function countBySite( $siteId )
+    {
+        $qb = $this->createQueryBuilder()
+            ->hydrate(false)
+            ->field('site.id')->equals( $siteId );
+        $query      = $qb->getQuery();
+        $count    = $query->execute()->count();
+        return $count;
+    }
 }

@@ -1,0 +1,9 @@
+parameters:
+    reader_grabber.grabber.class: Reader\Bundle\GrabberBundle\Service\Grabber
+
+services:
+    reader_grabber.grabber:
+        class: %reader_grabber.grabber.class%
+        arguments: []
+    reader_grabber:
+            alias: reader_grabber.grabber
