@@ -1,7 +1,13 @@
 parameters:
-#    reader_admin.example.class: Reader\Bundle\AdminBundle\Example
+    reader_admin.notifier.class: Reader\Bundle\AdminBundle\Utils\Notifier
 
 services:
     reader_admin.firewall.request_matcher:
         class: Symfony\Component\HttpFoundation\RequestMatcher
         arguments: ["/", "admin\.*"]
+
+    reader_admin.notifier:
+        class: %reader_admin.notifier.class%
+        arguments: [@service_container]
+    reader_notifier:
+            alias: reader_admin.notifier

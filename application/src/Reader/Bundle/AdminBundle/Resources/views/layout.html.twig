@@ -2,16 +2,20 @@
 <html lang="fr">
 <head>
     <meta charset="utf-8">
-    <title>{% block title %}Reader{%  endblock %}</title>
+    <title>{% block headTitle %}Reader 2.0{%  endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <!-- Styles -->
     {% block stylesheets %}
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         {% stylesheets
-        "bundles/readeradmin/css/style.less" filter="less,cssrewrite" %}
+        "bundles/readeradmin/css/font-awesome.min.css"
+        "bundles/readeradmin/css/jquery.pnotify.css" filter="cssrewrite"
+        "bundles/readeradmin/css/admin.less"
+        "bundles/readeradmin/css/admin-responsive.less" filter="less,cssrewrite" %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
     {% endblock %}
@@ -32,6 +36,19 @@
     {% block javascript %}
         <script src="{{ asset('js/jquery.js') }}"></script>
         <script src="{{ asset('js/bootstrap.js') }}"></script>
+        {% javascripts
+        "bundles/readeradmin/js/jquery.pnotify.min.js" %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('a[data-toggle=tooltip]').tooltip({
+                    container: 'body'
+                });
+                {% include "ReaderAdminBundle:Javascript:notifyCenter.js.twig" %}
+            });
+        </script>
     {% endblock %}
 
 </body>

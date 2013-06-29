@@ -1,0 +1,36 @@
+{% extends "ReaderAdminBundle:Widget:layout.html.twig" %}
+
+{% block widgetHeader %}
+    <div class="widget-actions">
+        <a class="action" data-placement="top" data-toggle="tooltip" href="{{ path('reader_admin_site_add') }}" title="Add site"><i class="icon-plus icon-white"></i></a>
+    </div>
+    <h3>Sites list</h3>
+{% endblock %}
+
+{% block widgetContent %}
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Categories</th>
+            <th style="width: 100px;"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for site in sites %}
+            <tr>
+                <td><a href="{{ path('reader_admin_site_view', { 'id': site.id }) }}">{{ site.title }}</a></td>
+                <td>
+                    {% for category in site.categories %}
+                        <span class="label">{{ category.name }}</span>{% if not loop.last %}&nbsp;{% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{{ path('reader_admin_site_update', { 'id' : site.id }) }}" class="btn"><i class="icon-pencil"></i></a>&nbsp;
+                    <a href="{{ path('reader_admin_site_delete', { 'id' : site.id }) }}" class="btn btn-danger"><i class="icon-trash icon-white"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "ReaderAdminBundle:Widget:layout.html.twig" %}
+
+{% block widgetHeader %}
+    <div class="widget-actions">
+        <a class="action" data-placement="top" data-toggle="tooltip" href="{{ path('reader_admin_category_add') }}" title="Add category"><i class="icon-plus icon-white"></i></a>
+    </div>
+    <h3>Categories list</h3>
+{% endblock %}
+
+{% block widgetContent %}
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Identifier</th>
+            <th style="width: 100px;"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+            <tr>
+                <td>{{ category.name }}</td>
+                <td>{{ category.identifier }}</td>
+                <td>
+                    <a href="{{ path('reader_admin_category_update', { 'id' : category.id }) }}" class="btn"><i class="icon-pencil"></i></a>&nbsp;
+                    <a href="{{ path('reader_admin_category_delete', { 'id' : category.id }) }}" class="btn btn-danger"><i class="icon-trash icon-white"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -42,7 +42,8 @@ class SiteController extends Controller
         $site = new Site();
 
         if ( $request->isMethod('POST') ) {
-            $form = $this->createForm(new SiteType(), $site );
+            $notifier = $this->get('reader_notifier');
+            $form     = $this->createForm(new SiteType(), $site );
             $form->submit( $request );
             if ($form->isValid()) {
                 // Persist site in DB
@@ -50,8 +51,11 @@ class SiteController extends Controller
                 $doctrine->persist( $site );
                 $doctrine->flush();
 
-                $this->get('session')->getFlashBag()->add( 'successSiteAdd', $site->getTitle() . ' has been created' );
+                $notifier->notify( 'Site added', $site->getTitle() . ' has been created' );
+
                 return $this->redirect( $this->generateUrl( 'reader_admin_site' ) );
+            } else {
+                $notifier->notify( 'Invalid fields', 'Some data you fill in the form are not valid', 'error' );
             }
         }
         else
@@ -78,6 +82,7 @@ class SiteController extends Controller
         $doctrine       = $this->get('doctrine_mongodb');
         $siteRepository = $doctrine->getRepository('ReaderBundle:Site');
         $site           = $siteRepository->find( $id );
+        $notifier       = $this->get('reader_notifier');
 
         if ( !is_null( $site ) )
         {
@@ -89,9 +94,11 @@ class SiteController extends Controller
                     // Persist site in DB
                     $doctrine = $this->get('doctrine_mongodb')->getManager();
                     $doctrine->flush();
+                    $notifier->notify( 'Site updated', $site->getTitle() . ' has been updated' );
 
-                    $this->get('session')->getFlashBag()->add( 'successSiteUpdate', $site->getTitle() . ' has been updated' );
                     return $this->redirect( $this->generateUrl( 'reader_admin_site' ) );
+                } else {
+                    $notifier->notify( 'Invalid fields', 'Some data you fill in the form are not valid', 'error' );
                 }
             }
             else
@@ -117,6 +124,7 @@ class SiteController extends Controller
         $doctrine       = $this->get('doctrine_mongodb');
         $siteRepository = $doctrine->getRepository('ReaderBundle:Site');
         $site           = $siteRepository->find( $id );
+        $notifier       = $this->get('reader_notifier');
 
         if ( !is_null( $site ) )
         {
@@ -135,7 +143,9 @@ class SiteController extends Controller
             }
             $dm->remove($site);
             $dm->flush();
-            $this->get('session')->getFlashBag()->add( 'successSiteDelete', $siteTitle . ' and its stories have been deleted' );
+            $notifier->notify( 'Site deleted', $siteTitle . ' and its stories have been deleted' );
+        } else {
+            $notifier->notify( 'Site does not exist', 'The site you tried to delete does not exist', 'error' );
         }
         return $this->redirect( $this->generateUrl('reader_admin_site') );
     }
@@ -279,7 +289,8 @@ class SiteController extends Controller
                     $dm->flush();
                 }
             }
-            $this->get('session')->getFlashBag()->add( 'successStoriesDelete', $siteTitle . ' stories have been deleted' );
+            $notifier = $this->get('reader_notifier');
+            $notifier->notify( 'Stories have been deleted', $siteTitle . ' stories have been deleted' );
         }
         return $this->redirect( $this->generateUrl('reader_admin_site_view', array( 'id' => $id) ) );
     }

@@ -1,0 +1,9 @@
+{% for flashMessage in app.session.flashbag.get('notify') %}
+    $.pnotify({
+        title: "{{ flashMessage.title|e('js') }}",
+        text: "{{ flashMessage.content|e('js') }}",
+        type: "{{ flashMessage.type|e('js') }}",
+        icon: "{{ flashMessage.icon|e('js') }}",
+        history: false
+    });
+{% endfor %}

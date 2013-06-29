@@ -1,120 +1,30 @@
 {% extends "ReaderAdminBundle::layout.html.twig" %}
 
+{% block headTitle %}Site dashboard / {{ parent() }}{% endblock %}
+{% block title %}Site dashboard / {{ parent() }}{% endblock %}
+
 {% block header %}
     {% set active = 'site' %}
     {{ parent() }}
 {% endblock %}
 
-
-{% for flashMessage in app.session.flashbag.get('successSiteAdd') %}
-    {% set modal = "successSiteAdd" %}
-{% endfor %}
-{% for flashMessage in app.session.flashbag.get('successCategoryAdd') %}
-    {% set modal = "successCategoryAdd" %}
-{% endfor %}
-
 {% block content %}
-    <div class="container-fluid paddedTop paddedBottom">
-        <div class="row-fluid">
-            <div class="span6 light padded">
-                <h2>Sites list</h2>
-                {% for flashMessage in app.session.flashbag.get('successSiteAdd') %}
-                    <div class="alert alert-block alert-info">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <p><strong>Site added</strong></p>
-                        <p>{{ flashMessage }}</p>
-                    </div>
-                {% endfor %}
-                {% for flashMessage in app.session.flashbag.get('successSiteUpdate') %}
-                    <div class="alert alert-block alert-info">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <p><strong>Site updated</strong></p>
-                        <p>{{ flashMessage }}</p>
-                    </div>
-                {% endfor %}
-                {% for flashMessage in app.session.flashbag.get('successSiteDelete') %}
-                    <div class="alert alert-block alert-info">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <p><strong>Site deleted</strong></p>
-                        <p>{{ flashMessage }}</p>
-                    </div>
-                {% endfor %}
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Categories</th>
-                        <th style="width: 100px;"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for site in sites %}
-                        <tr>
-                            <td><a href="{{ path('reader_admin_site_view', { 'id': site.id }) }}">{{ site.title }}</a></td>
-                            <td>
-                                {% for category in site.categories %}
-                                    <span class="label">{{ category.name }}</span>{% if not loop.last %}&nbsp;{% endif %}
-                                {% endfor %}
-                            </td>
-                            <td>
-                                <a href="{{ path('reader_admin_site_update', { 'id' : site.id }) }}" class="btn"><i class="icon-pencil"></i></a>&nbsp;
-                                <a href="{{ path('reader_admin_site_delete', { 'id' : site.id }) }}" class="btn btn-danger"><i class="icon-trash icon-white"></i></a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-                <a class="btn btn-primary" href="{{ path('reader_admin_site_add') }}"><i class="icon-plus icon-white"></i>&nbsp;Add site</a>
+    <div class="container">
+        <div class="row">
+            <div class="span12"><h2>Sites management</h2></div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                {% include "ReaderAdminBundle:Widget:siteList.html.twig" %}
             </div>
-            <div class="span6 light padded">
-                <h2>Categories list</h2>
-                {% for flashMessage in app.session.flashbag.get('successCategoryAdd') %}
-                    <div class="alert alert-block alert-info">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <p><strong>Category added</strong></p>
-                        <p>{{ flashMessage }}</p>
-                    </div>
-                {% endfor %}
-                {% for flashMessage in app.session.flashbag.get('successCategoryUpdate') %}
-                    <div class="alert alert-block alert-info">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <p><strong>Category updated</strong></p>
-                        <p>{{ flashMessage }}</p>
-                    </div>
-                {% endfor %}
-                {% for flashMessage in app.session.flashbag.get('successCategoryDelete') %}
-                    <div class="alert alert-block alert-info">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <p><strong>Category deleted</strong></p>
-                        <p>{{ flashMessage }}</p>
-                    </div>
-                {% endfor %}
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Identifier</th>
-                        <th style="width: 100px;"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for category in categories %}
-                        <tr>
-                            <td>{{ category.name }}</td>
-                            <td>{{ category.identifier }}</td>
-                            <td>
-                                <a href="{{ path('reader_admin_category_update', { 'id' : category.id }) }}" class="btn"><i class="icon-pencil"></i></a>&nbsp;
-                                <a href="{{ path('reader_admin_category_delete', { 'id' : category.id }) }}" class="btn btn-danger"><i class="icon-trash icon-white"></i></a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-                <a class="btn btn-primary" href="{{ path('reader_admin_category_add') }}"><i class="icon-plus icon-white"></i>&nbsp;Add category</a>
+            <div class="span6">
+                {% include "ReaderAdminBundle:Widget:categoryList.html.twig" %}
             </div>
         </div>
+        <div class="row">
+            <div class="span12"><h2>Overview</h2></div>
+        </div>
     </div>
-
 {% endblock %}
 
 {% block javascript %}
