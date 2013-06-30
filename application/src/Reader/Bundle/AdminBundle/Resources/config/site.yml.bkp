@@ -1,0 +1,58 @@
+dtc:                                           #Route name, used for routing
+    title: 'Dans ton chat'                     #Used for page title
+    shortTitle: 'DTC'                          #Menu link name
+    url: 'http://danstonchat.com'              #URL to grab
+    urlPattern: '/latest/%d.html'              #Pagination format, "%d" replaced by page number according to pageFormat parameter
+    urlFirstPage: 1                            #Indicate the list pagination begin to 0 or 1
+    urlStep: 1                                 #Indicate step : how much do we have to increment when switching from page n to page n+1
+    grabSelector: '.item-content'              #CSS selector for content to grab
+    allowedTags: '<br><span>'                  #All tags are stripped, except for allowedTags parameter
+    routeName: 'dtc'                           #Main route name for this site, used only for url generator
+    randomRouteName: 'dtc_random'              #Route name if a random post request is enabled, delete parameter if not
+    urlRandom: '/random.html'                  #Random URL to grab, delete parameter if no random post request enabled
+eab:
+    title: 'Entendu au boulot'
+    shortTitle: 'EAB'
+    url: 'http://entenduauboulot.fr'
+    urlPattern: '/page/%d'
+    urlFirstPage: 0
+    urlStep: 10
+    grabSelector: 'article > p'
+    allowedTags: ''
+    routeName: 'eab'
+    randomRouteName: 'eab_random'
+    urlRandom: '/aleatoire'
+pb:
+    title: 'Personal branling'
+    shortTitle: 'Personal branling'
+    url: 'http://personalbranling.tumblr.com'
+    urlPattern: '/page/%d'
+    urlFirstPage: 1
+    urlStep: 1
+    grabSelector: '.post-content'
+    allowedTags: '<img><div>'
+    routeName: 'pb'
+    randomRouteName: 'pb_random'
+    urlRandom: '/random'
+vdm:
+    title: 'Vie de merde'
+    shortTitle: 'VDM'
+    url: 'http://www.viedemerde.fr'
+    urlPattern: '/?page=%d'
+    urlFirstPage: 0
+    urlStep: 1
+    grabSelector: '.article > p'
+    allowedTags: ''
+    routeName: 'vdm'
+    randomRouteName: 'vdm_random'
+    urlRandom: '/aleatoire'
+grq:
+    title: 'Good reads popular quotes'
+    shortTitle: 'Good reads'
+    url: 'http://www.goodreads.com/quotes'
+    urlPattern: '?page=%d'
+    urlFirstPage: 1
+    urlStep: 1
+    grabSelector: '.quoteText'
+    allowedTags: ''
+    routeName: 'grq'

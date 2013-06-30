@@ -1,0 +1,58 @@
+{% extends "ReaderAdminBundle:Widget:layout.html.twig" %}
+
+{% block widgetHeader %}
+    <div class="widget-actions">
+        <a class="action" data-placement="top" data-toggle="tooltip" href="{{ path( 'reader_admin_site_update', { 'id': site.id }) }}" title="Edit site configuration"><i class="icon-pencil"></i></a>
+    </div>
+    <h2>{{ site.title }}</h2>
+{% endblock %}
+
+{% block widgetContent %}
+
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Identifier</th>
+                <td>{{ site.identifier }}</td>
+            </tr>
+            <tr>
+                <th>Short title</th>
+                <td>{{ site.shortTitle }}</td>
+            </tr>
+            <tr>
+                <th>Site URL</th>
+                <td>{{ site.url }}</td>
+            </tr>
+            <tr>
+                <th>Categories</th>
+                <td>{% for category in site.categories %}
+                        <span class="label">{{ category.name }}</span>{% if not loop.last %}&nbsp;{% endif %}
+                    {% endfor %}</td>
+            </tr>
+            <tr>
+                <th>URL pattern</th>
+                <td>{{ site.urlPattern }}</td>
+            </tr>
+            <tr>
+                <th>URL first page</th>
+                <td>{{ site.urlFirstPage }}</td>
+            </tr>
+            <tr>
+                <th>URL step</th>
+                <td>{{ site.urlStep }}</td>
+            </tr>
+            <tr>
+                <th>Grab CSS selector</th>
+                <td>{{ site.grabSelector }}</td>
+            </tr>
+            <tr>
+                <th>Allowed tags</th>
+                <td>{{ site.allowedTags }}</td>
+            </tr>
+            <tr>
+                <th>Image tag</th>
+                <td>{{ site.imageTag }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

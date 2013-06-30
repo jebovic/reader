@@ -1,0 +1,37 @@
+@import "variables.less";
+
+.story {
+    padding: 0 2em 0 1.5em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    border-bottom: 1px dotted #CCC;
+    &:last-child {
+        padding-bottom: 0;
+        border: none;
+    }
+    a.delete-story {
+        margin-right: -25px;
+    }
+    .image {
+        float: left;
+        width: 150px;
+        img {
+            width: 150px;
+        }
+    }
+    .text {
+        &.withImage {
+            margin-left: 170px;
+        }
+    }
+}
+#imageModal {
+    .modal-body {
+        text-align: center;
+    }
+}
+
+/* Specific DTC */
+span.decoration {
+    color: @primary;
+}

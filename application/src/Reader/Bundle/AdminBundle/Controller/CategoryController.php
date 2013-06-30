@@ -19,7 +19,8 @@ class CategoryController extends Controller
         $category = new Category();
 
         if ( $request->isMethod('POST') ) {
-            $form = $this->createForm(new CategoryType(), $category );
+            $notifier = $this->get('reader_notifier');
+            $form     = $this->createForm(new CategoryType(), $category );
             $form->submit( $request );
             if ($form->isValid()) {
                 // Persist site in DB
@@ -27,8 +28,11 @@ class CategoryController extends Controller
                 $doctrine->persist( $category );
                 $doctrine->flush();
 
-                $this->get('session')->getFlashBag()->add( 'successCategoryAdd', $category->getName() . ' has been created' );
+                $notifier->notify( 'Category added', $category->getName() . ' has been created' );
+
                 return $this->redirect( $this->generateUrl( 'reader_admin_site' ) );
+            } else {
+                $notifier->notifyInvalidForm();
             }
         }
         else
@@ -61,14 +65,17 @@ class CategoryController extends Controller
             $form = $this->createForm(new CategoryType(), $category );
             if ( $request->isMethod('POST') )
             {
+                $notifier = $this->get('reader_notifier');
                 $form->submit( $request );
                 if ($form->isValid()) {
                     // Persist site in DB
                     $doctrine = $this->get('doctrine_mongodb')->getManager();
                     $doctrine->flush();
 
-                    $this->get('session')->getFlashBag()->add( 'successCategoryUpdate', $category->getName() . ' has been updated' );
+                    $notifier->notify( 'Category updated', $category->getName() . ' has been updated' );
                     return $this->redirect( $this->generateUrl( 'reader_admin_site' ) );
+                } else {
+                    $notifier->notifyInvalidForm();
                 }
             }
             else
@@ -97,9 +104,10 @@ class CategoryController extends Controller
 
         if ( !is_null( $category ) )
         {
-            $dm = $this->get('doctrine_mongodb')->getManager();
+            $dm             = $this->get('doctrine_mongodb')->getManager();
             $siteRepository = $doctrine->getRepository('ReaderBundle:Site');
-            $sites = $siteRepository->findAll();
+            $sites          = $siteRepository->findAll();
+            $notifier       = $this->get('reader_notifier');
 
             if ( !is_null( $sites ) && !empty( $sites ) )
             {
@@ -107,16 +115,13 @@ class CategoryController extends Controller
                 {
                     $site->removeCategory($category);
                     $dm->flush();
-                    $this->get('session')->getFlashBag()->add(
-                        'successSiteUpdate',
-                        $site->getTitle() . ' categories updated'
-                    );
+                    $notifier->notify( 'Site updated', $site->getTitle() . ' categories updated' );
                 }
             }
             $categoryName = $category->getName();
             $dm->remove($category);
             $dm->flush();
-            $this->get('session')->getFlashBag()->add( 'successCategoryDelete', $categoryName . ' has been deleted' );
+            $notifier->notify( 'Category deleted', $categoryName . ' has been deleted' );
         }
         return $this->redirect( $this->generateUrl('reader_admin_site') );
     }

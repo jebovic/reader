@@ -43,10 +43,34 @@ class Grabber
     {
         $allowedTags = $this->site->getAllowedTags();
         $selector    = $this->site->getGrabSelector();
-        $nodes       = $crawler->filter( $selector )->each(function ($node, $i) use( $allowedTags )
+        $content     = array( 'html' => '', 'image' => null);
+        $nodes       = $crawler->filter( $selector )->each(function ($node, $i) use( $allowedTags, $content )
         {
-            $content = $node->html();
-            return strip_tags($content, $allowedTags);
+            if ( $imageSelector = $this->site->getImageTag() )
+            {
+                if ( strpos( $imageSelector, 'parent' ) === 0 )
+                {
+                    $imageSelector = trim( str_replace( 'parent', '', $imageSelector ) );
+                    try {
+                        $imageUrl = $node->siblings()->filter( $imageSelector )->first()->attr('src');
+                    } catch ( \Exception $e)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    try {
+                        $imageUrl = $node->filter( $imageSelector )->first()->attr('src');
+                    } catch ( \Exception $e)
+                    {
+                        return false;
+                    }
+                }
+                $content['image'] = $imageUrl;
+            }
+            $content['html'] = strip_tags($node->html(), $allowedTags);
+            return $content;
         });
 
         return $nodes;

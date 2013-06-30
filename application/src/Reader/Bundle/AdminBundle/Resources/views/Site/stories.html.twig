@@ -1,8 +1,22 @@
-{% for story in stories %}
-    <div class="story">
-        <a class="btn btn-danger btn-mini pull-right delete-story" href="#" data-target="{{ path('reader_admin_story_delete', { 'id': story.id }) }}" onclick="deleteStory(this); return false;">
-            <i class="icon-white icon-trash"></i>
-        </a>
-        {{ story.text|raw }}
-    </div>
-{% endfor %}
+{% spaceless %}
+    {% autoescape 'js' %}
+        {% for story in stories %}
+            <div class="story">
+                <a class="btn btn-danger btn-mini pull-right delete-story" href="#" data-target="{{ story.id }}">
+                    <i class="icon-white icon-trash"></i>
+                </a>
+                {% if story.image %}
+                    <div class="image">
+                        <a class="imageModal" href="#imageModal" data-toggle="modal" data-content="storyContent{{ story.id }}"><img src="{{ story.image|raw }}" alt="" /></a>
+                    </div>
+                {% endif %}
+                <div id="storyContent{{ story.id }}" class="text{% if story.image %} withImage{% endif %}">
+                    <p>{{ story.text|raw }}</p>
+                </div>
+                {% if story.image %}
+                    <div class="clearfix"></div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endautoescape %}
+{% endspaceless %}

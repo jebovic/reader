@@ -1,0 +1,28 @@
+{% extends "ReaderAdminBundle:Widget:layout.html.twig" %}
+
+{% block widgetHeader %}
+    <div class="widget-actions">
+        {% spaceless %}
+        <a id="grabStories" class="action" data-placement="top" data-toggle="tooltip" href="#" title="Grab more stories">
+            <i class="icon-refresh"></i>
+        </a>
+        <a id="deleteStories" class="action" data-placement="top" data-toggle="tooltip" href="{{ path('reader_admin_site_purge', { 'id': site.id }) }}" title="Purge stories">
+            <i class="icon-trash"></i>
+        </a>
+        {% endspaceless %}
+    </div>
+    <h2>Stories <small id="storiesCount">({{ storiesCount }})</small></h2>
+{% endblock %}
+
+{% block widgetContent %}
+    <div class="storiesPagination"></div>
+    <div id="stories"></div>
+    <div class="storiesPagination"></div>
+    <div id="imageModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3 id="myModalLabel">Story preview</h3>
+        </div>
+        <div class="modal-body"></div>
+    </div>
+{% endblock %}

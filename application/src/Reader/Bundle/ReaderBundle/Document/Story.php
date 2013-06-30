@@ -10,6 +10,7 @@ class Story
     protected $grabbed;
     protected $page;
     protected $position;
+    protected $image;
     /**
      * @var \MongoId $id
      */
@@ -156,5 +157,27 @@ class Story
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     * @return self
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string $image
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

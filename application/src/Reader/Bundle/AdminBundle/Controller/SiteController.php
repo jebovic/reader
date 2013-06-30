@@ -55,7 +55,7 @@ class SiteController extends Controller
 
                 return $this->redirect( $this->generateUrl( 'reader_admin_site' ) );
             } else {
-                $notifier->notify( 'Invalid fields', 'Some data you fill in the form are not valid', 'error' );
+                $notifier->notifyInvalidForm();
             }
         }
         else
@@ -98,7 +98,7 @@ class SiteController extends Controller
 
                     return $this->redirect( $this->generateUrl( 'reader_admin_site' ) );
                 } else {
-                    $notifier->notify( 'Invalid fields', 'Some data you fill in the form are not valid', 'error' );
+                    $notifier->notifyInvalidForm();
                 }
             }
             else
@@ -205,7 +205,7 @@ class SiteController extends Controller
                 $manager = $doctrine->getManager();
                 foreach( $stories as $position => $story )
                 {
-                    $storySum        = md5( $story );
+                    $storySum        = md5( $story['html'] );
                     $storyRepository = $doctrine->getRepository('ReaderBundle:Story');
                     $storyExists     = $storyRepository->findOneBy( array('textSum' => $storySum ) );
 
@@ -216,8 +216,21 @@ class SiteController extends Controller
                         $storyDocument->setPage( $page );
                         $storyDocument->setSite( $site );
                         $storyDocument->setPosition( $position );
-                        $storyDocument->setText( $story );
+                        $storyDocument->setText( $story['html'] );
                         $storyDocument->setTextSum( $storySum );
+
+                        $imageUrl = $story['image'];
+                        if ( !is_null( $imageUrl ) && $imageUrl != '' )
+                        {
+                            if ( strpos( $imageUrl, 'http' ) === 0)
+                            {
+                                $storyDocument->setImage( $story['image'] );
+                            }
+                            else
+                            {
+                                $storyDocument->setImage( $site->getUrl() . '/' . $story['image'] );
+                            }
+                        }
 
                         $manager->persist( $storyDocument );
                         $manager->flush();
@@ -237,29 +250,40 @@ class SiteController extends Controller
      * Get stories
      * @param string $id
      * @param string $page
+     * @param bool $returnCount
      * @return mixed
      */
-    public function storiesAction($id, $page)
+    public function storiesAction($id, $page, $returnCount = false )
     {
         $doctrine       = $this->get('doctrine_mongodb');
         $siteRepository = $doctrine->getRepository('ReaderBundle:Site');
         $site           = $siteRepository->find( $id );
-
+        $response       = new Response();
+        $response->headers->set( 'Content-Type', 'application/json' );
         if ( !is_null( $site ) )
         {
             $storyRepository = $doctrine->getRepository('ReaderBundle:Story');
-            $limit  = 10;
-            $offset = ($page - 1) * $limit;
-            $stories         = $storyRepository->findBySite( $site->getId(), $offset, $limit );
-            return $this->render(
+            $limit   = 10;
+            $offset  = ($page - 1) * $limit;
+            $stories = $storyRepository->findBySite( $site->getId(), $offset, $limit );
+            $result  = array( 'success' => true, 'content' => '', 'count' => '' );
+
+            if ( $returnCount )
+            {
+                $result['count'] = $storyRepository->countBySite( $site->getId() );
+            }
+
+            $result['content'] = $this->render(
                 'ReaderAdminBundle:Site:stories.html.twig',
                 array(
                     'stories' => $stories
                 )
-            );
+            )->getContent();
+            $response->setContent( json_encode( $result ) );
+            return $response;
         }
-        $response = new Response();
-        $response->setContent( json_encode( array( 'success' => false )) );
+
+        $response->setContent( json_encode( array( 'success' => false ) ) );
         return $response;
     }
 

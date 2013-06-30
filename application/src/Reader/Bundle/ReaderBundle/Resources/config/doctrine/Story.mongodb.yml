@@ -13,6 +13,8 @@ Reader\Bundle\ReaderBundle\Document\Story:
             type: int
         position:
             type: int
+        image:
+            type: string
     referenceOne:
         site:
             targetDocument: Reader\Bundle\ReaderBundle\Document\Site

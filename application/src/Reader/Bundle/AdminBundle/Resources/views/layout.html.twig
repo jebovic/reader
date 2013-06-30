@@ -15,7 +15,8 @@
         "bundles/readeradmin/css/font-awesome.min.css"
         "bundles/readeradmin/css/jquery.pnotify.css" filter="cssrewrite"
         "bundles/readeradmin/css/admin.less"
-        "bundles/readeradmin/css/admin-responsive.less" filter="less,cssrewrite" %}
+        "bundles/readeradmin/css/admin-responsive.less"
+        "bundles/readeradmin/css/stories.less"filter="less,cssrewrite" %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
     {% endblock %}
@@ -37,7 +38,8 @@
         <script src="{{ asset('js/jquery.js') }}"></script>
         <script src="{{ asset('js/bootstrap.js') }}"></script>
         {% javascripts
-        "bundles/readeradmin/js/jquery.pnotify.min.js" %}
+        "bundles/readeradmin/js/jquery.pnotify.min.js"
+        "bundles/readeradmin/js/application.js"%}
             <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
@@ -50,6 +52,5 @@
             });
         </script>
     {% endblock %}
-
 </body>
 </html>

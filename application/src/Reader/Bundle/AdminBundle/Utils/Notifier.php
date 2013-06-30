@@ -38,4 +38,13 @@ class Notifier {
             ) );
         return true;
     }
+
+    /**
+     * @return bool
+     */
+    public function notifyInvalidForm()
+    {
+        $this->notify( 'Invalid fields', 'Some data you fill in the form are not valid', 'error' );
+        return true;
+    }
 }
