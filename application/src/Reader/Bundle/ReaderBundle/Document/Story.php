@@ -4,6 +4,8 @@ namespace Reader\Bundle\ReaderBundle\Document;
 
 class Story
 {
+    const IMAGES_DIR = '/uploads/images';
+
     protected $text;
     protected $textSum;
     protected $site;
@@ -11,6 +13,7 @@ class Story
     protected $page;
     protected $position;
     protected $image;
+    protected $temp;
     /**
      * @var \MongoId $id
      */
@@ -181,6 +184,11 @@ class Story
         return $this->getImagePath();
     }
 
+    /**
+     * Get absolute image path
+     *
+     * @return null|string
+     */
     protected function getAbsoluteImagePath()
     {
         return null === $this->image
@@ -188,6 +196,11 @@ class Story
             : $this->getUploadRootDir().'/'.$this->image;
     }
 
+    /**
+     * Get image path
+     *
+     * @return null|string
+     */
     protected function getImagePath()
     {
         return null === $this->image
@@ -195,16 +208,33 @@ class Story
             : $this->getUploadDir().'/'.$this->image;
     }
 
+
+    /**
+     * Get upload root directory for image
+     *
+     * @return string
+     */
     protected function getUploadRootDir()
     {
         return __DIR__.'/../../../../../web'.$this->getUploadDir();
     }
 
+    /**
+     * Get upload directory for image
+     *
+     * @return string
+     */
     protected function getUploadDir()
     {
-        return '/uploads/images';
+        return self::IMAGES_DIR;
     }
 
+    /**
+     * Download url to upload directory
+     *
+     * @param $url
+     * @return string
+     */
     protected function downloadImage( $url )
     {
         $saveDir  = $this->getUploadRootDir();
@@ -221,4 +251,23 @@ class Story
 
         return $fileName;
     }
+
+    /**
+     * Store file path to remove before remove
+     */
+    public function storeFilenameForRemove()
+    {
+        $this->temp = $this->getAbsoluteImagePath();
+    }
+
+    /**
+     * Remove associated image after remove story
+     */
+    public function removeUpload()
+    {
+        if (isset($this->temp)) {
+            unlink($this->temp);
+        }
+    }
+
 }

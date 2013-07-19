@@ -19,3 +19,6 @@ Reader\Bundle\ReaderBundle\Document\Story:
         site:
             targetDocument: Reader\Bundle\ReaderBundle\Document\Site
             nullable: false
+    lifecycleCallbacks:
+        preRemove: [ storeFilenameForRemove ]
+        postRemove: [ removeUpload ]
