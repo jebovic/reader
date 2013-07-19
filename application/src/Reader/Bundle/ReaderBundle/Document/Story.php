@@ -162,12 +162,12 @@ class Story
     /**
      * Set image
      *
-     * @param string $image
+     * @param string $imageUrl
      * @return self
      */
-    public function setImage($image)
+    public function setImage($imageUrl)
     {
-        $this->image = $image;
+        $this->image = $this->downloadImage($imageUrl);
         return $this;
     }
 
@@ -178,6 +178,47 @@ class Story
      */
     public function getImage()
     {
-        return $this->image;
+        return $this->getImagePath();
+    }
+
+    protected function getAbsoluteImagePath()
+    {
+        return null === $this->image
+            ? null
+            : $this->getUploadRootDir().'/'.$this->image;
+    }
+
+    protected function getImagePath()
+    {
+        return null === $this->image
+            ? null
+            : $this->getUploadDir().'/'.$this->image;
+    }
+
+    protected function getUploadRootDir()
+    {
+        return __DIR__.'/../../../../../web'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        return '/uploads/images';
+    }
+
+    protected function downloadImage( $url )
+    {
+        $saveDir  = $this->getUploadRootDir();
+        $fileName = sha1( $url );
+        $filePath = sprintf('%s/%s', $saveDir, $fileName );
+
+        $ch = curl_init( $url );
+        $fp = fopen( $filePath, 'wb' );
+        curl_setopt($ch, CURLOPT_FILE, $fp);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_exec($ch);
+        curl_close($ch);
+        fclose($fp);
+
+        return $fileName;
     }
 }
