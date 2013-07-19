@@ -48,11 +48,14 @@ class Grabber
         {
             if ( $imageSelector = $this->site->getImageTag() )
             {
+                preg_match("/\[(.*?)\]/",$imageSelector, $searchSrc);
+                $imageSrc = !$searchSrc ? 'src' : $searchSrc[1];
+                $imageSelector = str_replace( $searchSrc[0], '', $imageSelector );
                 if ( strpos( $imageSelector, 'parent' ) === 0 )
                 {
                     $imageSelector = trim( str_replace( 'parent', '', $imageSelector ) );
                     try {
-                        $imageUrl = $node->siblings()->filter( $imageSelector )->first()->attr('src');
+                        $imageUrl = $node->siblings()->filter( $imageSelector )->first()->attr($imageSrc);
                     } catch ( \Exception $e)
                     {
                         return false;
@@ -61,7 +64,7 @@ class Grabber
                 else
                 {
                     try {
-                        $imageUrl = $node->filter( $imageSelector )->first()->attr('src');
+                        $imageUrl = $node->filter( $imageSelector )->first()->attr($imageSrc);
                     } catch ( \Exception $e)
                     {
                         return false;
