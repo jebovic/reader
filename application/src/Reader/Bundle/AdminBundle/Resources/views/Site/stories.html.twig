@@ -2,7 +2,7 @@
     {% autoescape 'js' %}
         {% for story in stories %}
             <div class="story">
-                <a class="btn btn-danger btn-mini pull-right delete-story" href="#" data-target="{{ story.id }}">
+                <a class="btn btn-danger btn-mini pull-right delete-story" href="#" data-target="{{ story.id }}" data-site="{{ story.site.id }}">
                     <i class="icon-white icon-trash"></i>
                 </a>
                 {% if story.image %}

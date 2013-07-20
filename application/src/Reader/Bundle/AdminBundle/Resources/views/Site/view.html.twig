@@ -23,13 +23,13 @@
     <script type="text/javascript" src="{{ asset('bundles/readeradmin/js/jquery.simplePagination.js') }}"></script>
     <script type="text/javascript">
         jQuery(document).ready(function($) {
-
-            getStories( 1, 0 );
+            var limit = 10;
+            getStories( 1, 0);
 
             {% if storiesCount %}
             $('.storiesPagination').pagination({
                 items: {{ storiesCount }},
-                itemsOnPage: 10,
+                itemsOnPage: limit,
                 cssStyle: 'pagination pagination-centered',
                 onPageClick: function(pageNumber) {
                     getStories( pageNumber, 0 );
@@ -124,7 +124,7 @@
 
             function getStories( page, returnCount ) {
                 $.ajax({
-                    url: '/site/stories/{{ site.id }}/' + page + '/' + returnCount,
+                    url: '/site/stories/{{ site.id }}/' + page + '/' + returnCount + '/' + limit,
                     success: function(data) {
                         if ( data.success != false )
                         {

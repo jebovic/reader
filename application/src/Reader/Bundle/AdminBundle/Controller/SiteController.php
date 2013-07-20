@@ -254,7 +254,7 @@ class SiteController extends Controller
      * @param bool $returnCount
      * @return mixed
      */
-    public function storiesAction($id, $page, $returnCount = false )
+    public function storiesAction($id, $page, $returnCount = false, $limit = 10 )
     {
         $doctrine       = $this->get('doctrine_mongodb');
         $siteRepository = $doctrine->getRepository('ReaderBundle:Site');
@@ -264,7 +264,6 @@ class SiteController extends Controller
         if ( !is_null( $site ) )
         {
             $storyRepository = $doctrine->getRepository('ReaderBundle:Story');
-            $limit   = 10;
             $offset  = ($page - 1) * $limit;
             $stories = $storyRepository->findBySite( $site->getId(), $offset, $limit );
             $result  = array( 'success' => true, 'content' => '', 'count' => '' );

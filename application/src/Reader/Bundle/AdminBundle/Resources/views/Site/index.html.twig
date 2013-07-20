@@ -22,7 +22,17 @@
             </div>
         </div>
         <div class="row">
-            <div class="span12"><h2>Overview</h2></div>
+            <div class="span12">
+                <h2>Overview</h2>
+            </div>
+        </div>
+        <div class="row">
+            {% for site in sites %}
+                {% if loop.index0%2 == 0 %}</div><div class="row">{% endif %}
+                <div class="span6">
+                    {% include "ReaderAdminBundle:Widget:siteStoriesOverview.html.twig" with {'table': false} %}
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
@@ -31,6 +41,44 @@
     {{ parent() }}
     <script type="text/javascript">
         $(document).ready(function() {
+            var limit = 3;
+            var stories = $('.stories');
+            stories.each( function() {
+                getStories( 1, 1, $(this).attr('data-site') );
+            });
+
+            stories.on( 'click', '.delete-story', function(e) {
+                e.preventDefault();
+                var $t = $( this );
+                $t.addClass('disabled');
+                $.ajax({
+                    url: '/story/delete/' + $t.attr('data-target'),
+                    success: function(data) {
+                        if ( data.success != false )
+                        {
+                            $t.parent('.story').slideUp('200', function(){
+                                getStories( 1, 1, $t.attr('data-site') );
+                            })
+                        }
+                    }
+                });
+            });
+
+            function getStories( page, returnCount, siteId ) {
+                $.ajax({
+                    url: '/site/stories/' + siteId + '/' + page + '/' + returnCount + '/' + limit,
+                    success: function(data) {
+                        if ( data.success != false )
+                        {
+                            $('#stories' + siteId).html( data.content );
+                            if ( data.count )
+                            {
+                                $('#storiesCount' + siteId).html('('+ data.count +')');
+                            }
+                        }
+                    }
+                });
+            }
         });
     </script>
 {% endblock %}

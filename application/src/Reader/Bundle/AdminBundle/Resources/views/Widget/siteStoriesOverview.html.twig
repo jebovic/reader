@@ -1,0 +1,9 @@
+{% extends "ReaderAdminBundle:Widget:layout.html.twig" %}
+
+{% block widgetHeader %}
+    <h3>{{ site.title }} stories <small id="storiesCount{{ site.id }}"></small></h3>
+{% endblock %}
+
+{% block widgetContent %}
+    <div id="stories{{ site.id }}" class="stories" data-site="{{ site.id }}"></div>
+{% endblock %}

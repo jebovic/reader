@@ -51,7 +51,7 @@ reader_admin_site_grab:
     defaults: { _controller: ReaderAdminBundle:Site:grab }
 
 reader_admin_site_stories:
-    pattern:  /site/stories/{id}/{page}/{returnCount}
+    pattern:  /site/stories/{id}/{page}/{returnCount}/{limit}
     defaults: { _controller: ReaderAdminBundle:Site:stories }
 
 reader_admin_site_purge:
