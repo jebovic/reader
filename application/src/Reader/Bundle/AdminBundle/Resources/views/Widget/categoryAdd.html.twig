@@ -1,0 +1,15 @@
+{% extends "ReaderAdminBundle:Widget:layout.html.twig" %}
+
+{% block widgetHeader %}
+    <i class="icon-plus"></i><h3>Add category to catalog</h3>
+{% endblock %}
+
+{% block widgetContent %}
+    <form id="categoryForm" class="form-horizontal bindSave" action="#" method="post" {{ form_enctype(form) }} novalidate >
+        {{ form_widget(form, {'form_type': 'horizontal'}) }}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add</button>
+            <a href="{{ path('reader_admin_site') }}" class="btn btn-danger">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

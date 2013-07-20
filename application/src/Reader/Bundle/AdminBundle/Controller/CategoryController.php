@@ -83,7 +83,8 @@ class CategoryController extends Controller
                 return $this->render(
                     'ReaderAdminBundle:Category:update.html.twig',
                     array(
-                        'form' => $form->createView()
+                        'category' => $category,
+                        'form'     => $form->createView()
                     )
                 );
             }

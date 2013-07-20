@@ -48,6 +48,7 @@ class Grabber
         {
             if ( $imageSelector = $this->site->getImageTag() )
             {
+                // find src attribute into image selector
                 preg_match("/\[(.*?)\]/",$imageSelector, $searchSrc);
                 $imageSrc = !$searchSrc ? 'src' : $searchSrc[1];
                 $imageSelector = str_replace( $searchSrc[0], '', $imageSelector );

@@ -106,6 +106,7 @@ class SiteController extends Controller
                 return $this->render(
                     'ReaderAdminBundle:Site:update.html.twig',
                     array(
+                        'site' => $site,
                         'form' => $form->createView()
                     )
                 );
