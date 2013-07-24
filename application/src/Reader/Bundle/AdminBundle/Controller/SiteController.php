@@ -48,6 +48,9 @@ class SiteController extends Controller
             if ($form->isValid()) {
                 // Persist site in DB
                 $doctrine = $this->get('doctrine_mongodb')->getManager();
+
+                $site->upload();
+
                 $doctrine->persist( $site );
                 $doctrine->flush();
 
@@ -93,6 +96,9 @@ class SiteController extends Controller
                 if ($form->isValid()) {
                     // Persist site in DB
                     $doctrine = $this->get('doctrine_mongodb')->getManager();
+
+                    $site->upload();
+
                     $doctrine->flush();
                     $notifier->notify( 'Site updated', $site->getTitle() . ' has been updated' );
 
@@ -153,11 +159,10 @@ class SiteController extends Controller
 
     /**
      * View site details
-     * @param Request $request
      * @param string $id
      * @return mixed
      */
-    public function viewAction(Request $request, $id)
+    public function viewAction( $id )
     {
         $doctrine       = $this->get('doctrine_mongodb');
         $siteRepository = $doctrine->getRepository('ReaderBundle:Site');
@@ -252,6 +257,7 @@ class SiteController extends Controller
      * @param string $id
      * @param string $page
      * @param bool $returnCount
+     * @param int $limit
      * @return mixed
      */
     public function storiesAction($id, $page, $returnCount = false, $limit = 10 )

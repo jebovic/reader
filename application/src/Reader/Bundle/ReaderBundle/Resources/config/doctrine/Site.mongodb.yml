@@ -25,8 +25,15 @@ Reader\Bundle\ReaderBundle\Document\Site:
             type: string
         featured:
             type: boolean
+        logoPath:
+            type: string
     referenceMany:
         categories:
             targetDocument: Reader\Bundle\ReaderBundle\Document\Category
             sort: { identifier: asc }
             nullable: true
+    lifecycleCallbacks:
+        preRemove: [ storeFilenameForRemove ]
+        postRemove: [ removeUpload ]
+        prePersist: [ preUpload, upload ]
+        preUpdate: [ preUpload, upload ]

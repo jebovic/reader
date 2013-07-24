@@ -33,7 +33,8 @@ class CategoryType extends AbstractType
                         ->sort('c.identifier', 'ASC');
                 },
                 'attr'  => array(
-                    'help'  => '* required.'
+                    'help'  => '* required.',
+                    'data-placeholder' => 'Choose a category...'
                 ),
                 'required' => false
             ));

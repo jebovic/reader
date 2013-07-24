@@ -13,7 +13,7 @@
         <tr>
             <th>Title</th>
             <th>Categories</th>
-            <th style="width: 82px;"></th>
+            <th style="width: 70px;"></th>
         </tr>
         </thead>
         <tbody>
@@ -29,8 +29,8 @@
                     {% endfor %}
                 </td>
                 <td>
-                    <a href="{{ path('reader_admin_site_update', { 'id' : site.id }) }}" class="btn"><i class="icon-pencil"></i></a>&nbsp;
-                    <a href="{{ path('reader_admin_site_delete', { 'id' : site.id }) }}" class="btn btn-danger"><i class="icon-trash icon-white"></i></a>
+                    <a href="{{ path('reader_admin_site_update', { 'id' : site.id }) }}" class="btn btn-small"><i class="icon-pencil"></i></a>&nbsp;
+                    <a href="{{ path('reader_admin_site_delete', { 'id' : site.id }) }}" class="btn btn-danger btn-small"><i class="icon-trash icon-white"></i></a>
                 </td>
             </tr>
         {% endfor %}

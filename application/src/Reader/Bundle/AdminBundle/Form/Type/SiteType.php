@@ -72,7 +72,7 @@ class SiteType extends AbstractType
             'label' => 'Categories',
             'property' => 'name',
             'multiple' => true,
-            'expanded' => true,
+            'expanded' => false,
             'class' => 'Reader\Bundle\ReaderBundle\Document\Category',
             'query_builder' => function( CategoryRepository $er ) {
                 return $er->createQueryBuilder('c')
@@ -87,6 +87,11 @@ class SiteType extends AbstractType
             'label' => 'Featured ?',
             'required' => false
         ));
+
+        $builder->add( 'logo', 'file', array(
+                'label' => 'Logo',
+                'required' => false
+            ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

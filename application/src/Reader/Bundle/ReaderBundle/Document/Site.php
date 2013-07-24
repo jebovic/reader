@@ -4,9 +4,11 @@ namespace Reader\Bundle\ReaderBundle\Document;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Reader\Bundle\ReaderBundle\Document\Category;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class Site
 {
+    const LOGOS_DIR = '/uploads/logos';
     protected $identifier;
     protected $title;
     protected $shortTitle;
@@ -19,6 +21,9 @@ class Site
     protected $imageTag;
     protected $categories;
     protected $featured;
+    protected $logo;
+    protected $logoPath;
+    protected $logoTemp;
     /**
      * @var \MongoId $id
      */
@@ -309,6 +314,127 @@ class Site
     public function getFeatured()
     {
         return $this->featured;
+    }
+
+    /**
+     * Sets logo path.
+     *
+     * @param string $path
+     */
+    public function setLogoPath( $path )
+    {
+        $this->logoPath = $path;
+    }
+
+    /**
+     * Get logo path.
+     *
+     * @return UploadedFile
+     */
+    public function getLogoPath()
+    {
+        return $this->getWebPath();
+    }
+
+    /**
+     * Sets logo.
+     *
+     * @param UploadedFile $file
+     */
+    public function setLogo(UploadedFile $file = null)
+    {
+        $this->logo = $file;
+        // check if we have an old image path
+        if (is_file($this->getAbsolutePath())) {
+            // store the old name to delete after the update
+            $this->logoTemp = $this->getAbsolutePath();
+        } else {
+            $this->logoPath = 'initial';
+        }
+    }
+
+    /**
+     * Get logo.
+     *
+     * @return UploadedFile
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    public function preUpload()
+    {
+        if (null !== $this->getLogo()) {
+            $this->logoPath = $this->getLogo()->guessExtension();
+        }
+    }
+
+    public function upload()
+    {
+        if (null === $this->getLogo()) {
+            return;
+        }
+
+        // check if we have an old image
+        if (isset($this->temp)) {
+            // delete the old image
+            unlink($this->temp);
+            // clear the temp image path
+            $this->temp = null;
+        }
+
+        // you must throw an exception here if the file cannot be moved
+        // so that the entity is not persisted to the database
+        // which the UploadedFile move() method does
+        $fileName = $this->id.'.'.$this->getLogo()->guessExtension();
+        $this->getLogo()->move(
+            $this->getUploadRootDir(),
+            $fileName
+        );
+
+        $this->setLogo( null );
+        $this->setLogoPath( $fileName );
+    }
+
+    public function storeFilenameForRemove()
+    {
+        $this->logoTemp = $this->getAbsolutePath();
+    }
+
+    public function removeUpload()
+    {
+        if (isset($this->logoTemp)) {
+            unlink($this->logoTemp);
+        }
+    }
+
+    public function getAbsolutePath()
+    {
+        return null === $this->logoPath
+            ? null
+            : $this->getUploadRootDir().'/'.$this->id.'.'.$this->logoPath;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->logoPath
+            ? null
+            : $this->getUploadDir().'/'.$this->logoPath;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return self::LOGOS_DIR;
     }
 
 }
