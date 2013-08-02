@@ -104,7 +104,7 @@ class SiteController extends Controller
 
                     return $this->redirect( $this->generateUrl( 'reader_admin_site' ) );
                 } else {
-                    $notifier->notifyInvalidForm();
+                    $notifier->notifyInvalidForm( $form->getErrors() );
                 }
             }
             else
@@ -203,7 +203,6 @@ class SiteController extends Controller
             $stories = $grabber
                 ->init($site, $page)
                 ->grab();
-
             if ( $stories && !empty($stories) )
             {
                 $count   = 0;
@@ -211,7 +210,8 @@ class SiteController extends Controller
                 $manager = $doctrine->getManager();
                 foreach( $stories as $position => $story )
                 {
-                    $storySum        = md5( $story['html'] );
+                    if ( $story === false ) continue;
+                    $storySum        = sha1( $story['title'] . '||' . $story['html'] );
                     $storyRepository = $doctrine->getRepository('ReaderBundle:Story');
                     $storyExists     = $storyRepository->findOneBy( array('textSum' => $storySum ) );
 
@@ -223,6 +223,7 @@ class SiteController extends Controller
                         $storyDocument->setSite( $site );
                         $storyDocument->setPosition( $position );
                         $storyDocument->setText( $story['html'] );
+                        $storyDocument->setTitle( $story['title'] );
                         $storyDocument->setTextSum( $storySum );
 
                         $imageUrl = $story['image'];

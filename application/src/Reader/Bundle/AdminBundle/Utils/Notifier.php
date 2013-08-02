@@ -42,9 +42,17 @@ class Notifier {
     /**
      * @return bool
      */
-    public function notifyInvalidForm()
+    public function notifyInvalidForm( $formErrors = null )
     {
-        $this->notify( 'Invalid fields', 'Some data you fill in the form are not valid', 'error' );
+        if ( !is_null( $formErrors ) && !empty( $formErrors ) )
+        {
+            $displayedErrors = array();
+            foreach ( $formErrors as $error )
+            {
+                $displayedErrors[] = $error->getMessageTemplate();
+            }
+        }
+        $this->notify( 'Invalid fields', 'Some data you fill in the form are not valid<br>' . implode('<br>',$displayedErrors), 'error' );
         return true;
     }
 }

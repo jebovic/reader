@@ -41,17 +41,25 @@ class Grabber
 
     protected function getStories(Crawler $crawler)
     {
-        $allowedTags = $this->site->getAllowedTags();
-        $selector    = $this->site->getGrabSelector();
-        $content     = array( 'html' => '', 'image' => null);
-        $nodes       = $crawler->filter( $selector )->each(function ($node, $i) use( $allowedTags, $content )
+        $allowedTags     = $this->site->getAllowedTags();
+        $selector        = $this->site->getGrabSelector();
+        $titleSelector   = $this->site->getTitleSelector();
+        $contentSelector = $this->site->getContentSelector();
+        $content         = array( 'html' => '', 'title' => '', 'image' => null);
+        $nodes           = $crawler->filter( $selector )->each(function ($node, $i) use( $allowedTags, $content, $titleSelector, $contentSelector )
         {
+            $isValid  = true;
+            $imageUrl = null;
             if ( $imageSelector = $this->site->getImageTag() )
             {
                 // find src attribute into image selector
+                $imageSrc      = 'src';
                 preg_match("/\[(.*?)\]/",$imageSelector, $searchSrc);
-                $imageSrc = !$searchSrc ? 'src' : $searchSrc[1];
-                $imageSelector = str_replace( $searchSrc[0], '', $imageSelector );
+                if ( !empty($searchSrc) )
+                {
+                    $imageSrc      = $searchSrc[1];
+                    $imageSelector = str_replace( $searchSrc[0], '', $imageSelector );
+                }
                 if ( strpos( $imageSelector, 'parent' ) === 0 )
                 {
                     $imageSelector = trim( str_replace( 'parent', '', $imageSelector ) );
@@ -59,7 +67,7 @@ class Grabber
                         $imageUrl = $node->siblings()->filter( $imageSelector )->first()->attr($imageSrc);
                     } catch ( \Exception $e)
                     {
-                        return false;
+                        // do something
                     }
                 }
                 else
@@ -68,13 +76,38 @@ class Grabber
                         $imageUrl = $node->filter( $imageSelector )->first()->attr($imageSrc);
                     } catch ( \Exception $e)
                     {
-                        return false;
+                        // do something
                     }
                 }
                 $content['image'] = $imageUrl;
             }
-            $content['html'] = strip_tags($node->html(), $allowedTags);
-            return $content;
+            if ( $titleSelector )
+            {
+                try {
+                    $content['title'] = strip_tags($node->filter( $titleSelector )->first()->html(), $allowedTags);
+                } catch ( \Exception $e)
+                {
+                    // echo $e->getMessage();
+                }
+            }
+            if ( $contentSelector )
+            {
+                try {
+                    $content['html'] = strip_tags($node->filter( $contentSelector )->first()->html(), $allowedTags);
+                } catch ( \Exception $e)
+                {
+                    // do something
+                }
+            }
+            else
+            {
+                $content['html'] = strip_tags($node->html(), $allowedTags);
+            }
+            if ( $content['html'] == '' && $content['title'] == '' )
+            {
+                $isValid = false;
+            }
+            return $isValid ? $content : $isValid;
         });
 
         return $nodes;

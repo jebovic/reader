@@ -17,6 +17,8 @@ class Site
     protected $urlFirstPage;
     protected $urlStep;
     protected $grabSelector;
+    protected $titleSelector;
+    protected $contentSelector;
     protected $allowedTags;
     protected $imageTag;
     protected $categories;
@@ -218,6 +220,38 @@ class Site
     public function getGrabSelector()
     {
         return $this->grabSelector;
+    }
+
+    /**
+     * @param mixed $contentSelector
+     */
+    public function setContentSelector($contentSelector)
+    {
+        $this->contentSelector = $contentSelector;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContentSelector()
+    {
+        return $this->contentSelector;
+    }
+
+    /**
+     * @param mixed $titleSelector
+     */
+    public function setTitleSelector($titleSelector)
+    {
+        $this->titleSelector = $titleSelector;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitleSelector()
+    {
+        return $this->titleSelector;
     }
 
     /**

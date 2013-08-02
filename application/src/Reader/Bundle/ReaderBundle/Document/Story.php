@@ -7,6 +7,7 @@ class Story
     const IMAGES_DIR = '/uploads/images';
 
     protected $text;
+    protected $title;
     protected $textSum;
     protected $site;
     protected $grabbed;
@@ -50,6 +51,22 @@ class Story
     public function getText()
     {
         return $this->text;
+    }
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     /**

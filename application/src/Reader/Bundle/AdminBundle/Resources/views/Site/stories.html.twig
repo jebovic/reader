@@ -11,6 +11,9 @@
                     </div>
                 {% endif %}
                 <div id="storyContent{{ story.id }}" class="text{% if story.image %} withImage{% endif %}">
+                    {% if story.title %}
+                        <p><strong>{{ story.title|raw }}</strong></p>
+                    {% endif %}
                     <p>{{ story.text|raw }}</p>
                 </div>
                 {% if story.image %}

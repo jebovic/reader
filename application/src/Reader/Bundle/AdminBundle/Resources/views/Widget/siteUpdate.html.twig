@@ -22,12 +22,18 @@
                 {{ form_row(form.urlPattern, {'form_type': 'horizontal'}) }}
                 {{ form_row(form.urlFirstPage, {'form_type': 'horizontal'}) }}
                 {{ form_row(form.urlStep, {'form_type': 'horizontal'}) }}
+            </fieldset>
+            <fieldset class="span6">
+                <legend>Story configuration</legend>
                 {{ form_row(form.grabSelector, {'form_type': 'horizontal'}) }}
+                {{ form_row(form.titleSelector, {'form_type': 'horizontal'}) }}
+                {{ form_row(form.contentSelector, {'form_type': 'horizontal'}) }}
                 {{ form_row(form.allowedTags, {'form_type': 'horizontal'}) }}
                 {{ form_row(form.imageTag, {'form_type': 'horizontal'}) }}
             </fieldset>
         </div>
         <div class="form-actions">
+            {{ form_rest( form ) }}
             <button type="submit" class="btn btn-primary">Update</button>
             <a href="{{ path('reader_admin_site') }}" class="btn btn-danger">Cancel</a>
         </div>

@@ -19,6 +19,10 @@ Reader\Bundle\ReaderBundle\Document\Site:
             type: int
         grabSelector:
             type: string
+        titleSelector:
+            type: string
+        contentSelector:
+            type: string
         allowedTags:
             type: string
         imageTag:

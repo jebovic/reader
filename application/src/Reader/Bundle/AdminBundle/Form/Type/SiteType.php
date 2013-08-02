@@ -60,6 +60,20 @@ class SiteType extends AbstractType
                 'help' => '* required.'
             ),
         ));
+        $builder->add( 'titleSelector', 'text', array(
+                'label' => 'Title CSS selector',
+                'attr'  => array(
+                    'help' => '* required.'
+                ),
+                'required' => false
+            ));
+        $builder->add( 'contentSelector', 'text', array(
+            'label' => 'Content CSS selector',
+            'attr'  => array(
+                'help' => '* required.'
+            ),
+            'required' => false
+        ));
         $builder->add( 'allowedTags', 'text', array(
             'label' => 'Allowed tags',
             'required' => false

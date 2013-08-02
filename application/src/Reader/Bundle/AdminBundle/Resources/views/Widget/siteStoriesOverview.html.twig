@@ -1,6 +1,9 @@
 {% extends "ReaderAdminBundle:Widget:layout.html.twig" %}
 
 {% block widgetHeader %}
+    <div class="widget-actions">
+        <a class="action" data-placement="top" data-toggle="tooltip" href="{{ path('reader_admin_site_view', { 'id': site.id }) }}" title="Show site details"><i class="icon-eye-open"></i></a>
+    </div>
     <h3>{{ site.title }} stories <small id="storiesCount{{ site.id }}"></small></h3>
 {% endblock %}
 

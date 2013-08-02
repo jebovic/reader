@@ -5,6 +5,8 @@ Reader\Bundle\ReaderBundle\Document\Story:
             id:  true
         text:
             type: string
+        title:
+            type: string
         textSum:
             type: string
         grabbed:
