@@ -5,11 +5,5 @@
 {% endblock %}
 
 {% block widgetContent %}
-    <form id="categoryForm" class="form-horizontal bindSave" action="#" method="post" {{ form_enctype(form) }} novalidate >
-        {{ form_widget(form, {'form_type': 'horizontal'}) }}
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Update</button>
-            <a href="{{ path('reader_admin_site') }}" class="btn btn-danger">Cancel</a>
-        </div>
-    </form>
+    {% include "ReaderAdminBundle:Form:category.html.twig" with { "submitButton": "Update" } %}
 {% endblock %}

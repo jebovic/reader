@@ -1,0 +1,33 @@
+<form id="siteForm" class="form-horizontal bindSave" action="#" method="post" {{ form_enctype(form) }} novalidate >
+    <div class="row-fluid">
+        <fieldset class="span6">
+            <legend>Site configuration</legend>
+            {{ form_row(form.identifier, {'form_type': 'horizontal'}) }}
+            {{ form_row(form.title, {'form_type': 'horizontal'}) }}
+            {{ form_row(form.shortTitle, {'form_type': 'horizontal'}) }}
+            {{ form_row(form.url, {'form_type': 'horizontal'}) }}
+            {{ form_row(form.categories, {'form_type': 'horizontal'}) }}
+            {{ form_row(form.featured, {'form_type': 'horizontal'}) }}
+            {{ form_row(form.logo, {'form_type': 'horizontal'}) }}
+        </fieldset>
+        <fieldset class="span6">
+            <legend>Grabbing configuration</legend>
+            {{ form_row(form.urlPattern, {'form_type': 'horizontal'}) }}
+            {{ form_row(form.urlFirstPage, {'form_type': 'horizontal'}) }}
+            {{ form_row(form.urlStep, {'form_type': 'horizontal'}) }}
+        </fieldset>
+        <fieldset class="span6">
+            <legend>Story configuration</legend>
+            {{ form_row(form.grabSelector, {'form_type': 'horizontal'}) }}
+            {{ form_row(form.titleSelector, {'form_type': 'horizontal'}) }}
+            {{ form_row(form.contentSelector, {'form_type': 'horizontal'}) }}
+            {{ form_row(form.allowedTags, {'form_type': 'horizontal'}) }}
+            {{ form_row(form.imageTag, {'form_type': 'horizontal'}) }}
+        </fieldset>
+    </div>
+    <div class="form-actions">
+        {{ form_rest( form ) }}
+        <button type="submit" class="btn btn-primary">{{ submitButton }}</button>
+        <a href="{{ path('reader_admin_site') }}" class="btn btn-danger">Cancel</a>
+    </div>
+</form>
