@@ -45,12 +45,13 @@ class Grabber
         $selector        = $this->site->getGrabSelector();
         $titleSelector   = $this->site->getTitleSelector();
         $contentSelector = $this->site->getContentSelector();
+        $imageSelector   = $this->site->getImageTag();
         $content         = array( 'html' => '', 'title' => '', 'image' => null);
-        $nodes           = $crawler->filter( $selector )->each(function ($node, $i) use( $allowedTags, $content, $titleSelector, $contentSelector )
+        $nodes           = $crawler->filter( $selector )->each(function ($node, $i) use( $allowedTags, $content, $titleSelector, $contentSelector, $imageSelector )
         {
             $isValid  = true;
             $imageUrl = null;
-            if ( $imageSelector = $this->site->getImageTag() )
+            if ( $imageSelector )
             {
                 // find src attribute into image selector
                 $imageSrc      = 'src';
