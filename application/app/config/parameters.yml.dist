@@ -16,3 +16,6 @@ parameters:
 
     admin_host:        admin.reader.loc
     public_host:       reader.loc
+
+    node_bin:          /usr/bin/nodejs
+    node_modules:      [/usr/local/lib/node_modules]

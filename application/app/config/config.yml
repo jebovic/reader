@@ -34,8 +34,8 @@ assetic:
     filters:
         cssrewrite: ~
         less:
-            node: /usr/bin/nodejs
-            node_paths: [/usr/local/lib/node_modules]
+            node: %node_bin%
+            node_paths: %node_modules%
             apply_to: "\.less$"
     assets:
         bootstrap_css:
