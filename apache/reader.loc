@@ -3,13 +3,14 @@
         Options FollowSymLinks
         AllowOverride None
     </Directory>
-    DirectoryIndex index_dev.php
+    DirectoryIndex app_dev.php
     RewriteEngine On
     RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-d
     RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-f
-    RewriteRule ^ /index_dev.php [L]
+    RewriteRule ^ /app_dev.php [L]
     DocumentRoot /web/reader/application/web
     ServerName reader.loc
+    ServerAlias admin.reader.loc
 
     <ifModule mod_headers.c>
         <filesMatch "\.(ico|jpe?g|png|gif|swf)$">
