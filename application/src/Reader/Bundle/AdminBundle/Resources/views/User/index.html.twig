@@ -1,0 +1,22 @@
+{% extends "ReaderAdminBundle::layout.html.twig" %}
+
+{% block headTitle %}Site dashboard / {{ parent() }}{% endblock %}
+{% block title %}Site dashboard / {{ parent() }}{% endblock %}
+
+{% block header %}
+    {% set active = 'user' %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="span12"><h2>Users management</h2></div>
+        </div>
+        <div class="row">
+            <div class="span12">
+                {% include "ReaderAdminBundle:Widget:userList.html.twig" with {'table': true} %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

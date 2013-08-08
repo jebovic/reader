@@ -1,0 +1,9 @@
+{% extends "ReaderAdminBundle:Widget:layout.html.twig" %}
+
+{% block widgetHeader %}
+    <i class="icon-plus"></i><h3>Update user {{  user.email }}</h3>
+{% endblock %}
+
+{% block widgetContent %}
+    {% include "ReaderAdminBundle:Form:user.html.twig" with { "submitButton": "Update" } %}
+{% endblock %}

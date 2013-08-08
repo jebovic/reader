@@ -1,0 +1,16 @@
+{% extends "ReaderAdminBundle::layout.html.twig" %}
+
+{% block header %}
+    {% set active = 'site' %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+                {% include "ReaderAdminBundle:Widget:userDetails.html.twig" with {'table': true} %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

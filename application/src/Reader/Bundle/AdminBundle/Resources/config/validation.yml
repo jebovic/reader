@@ -1,0 +1,6 @@
+Reader\Bundle\AdminBundle\Form\Model\Registration:
+    properties:
+        termsAccepted:
+            - NotBlank: ~
+        user:
+            - Valid: ~

@@ -1,3 +1,7 @@
+reader_user:
+    resource: "@ReaderUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
 reader_grabber:
     resource: "@ReaderGrabberBundle/Resources/config/routing.yml"
     prefix:   /

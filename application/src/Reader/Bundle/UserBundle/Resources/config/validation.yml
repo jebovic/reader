@@ -1,0 +1,13 @@
+Reader\Bundle\UserBundle\Document\User:
+    constraints:
+        - Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique:
+            fields: email
+            message: This email is already used.
+    properties:
+        email:
+            - NotBlank: ~
+            - Email:
+                checkMX: true
+                checkHost: true
+        password:
+            - NotBlank: ~

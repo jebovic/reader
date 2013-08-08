@@ -1,7 +1,7 @@
 {% extends "ReaderAdminBundle::layout.html.twig" %}
 
 {% block header %}
-    {% set active = 'site' %}
+    {% set active = 'user' %}
     {{ parent() }}
 {% endblock %}
 
@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="span12">
-                {% include "ReaderAdminBundle:Widget:siteUpdate.html.twig" with {'table': false} %}
+                {% include "ReaderAdminBundle:Widget:userAdd.html.twig" with {'table': false} %}
             </div>
         </div>
     </div>
@@ -25,14 +25,14 @@
 {% block javascript %}
     {{ parent() }}
     {% javascripts
-        "bundles/readeradmin/js/chosen.jquery.min.js"
-        "bundles/readeradmin/js/shortcut.js" filter="uglifyjs2" %}
+    "bundles/readeradmin/js/chosen.jquery.min.js"
+    "bundles/readeradmin/js/shortcut.js" filter="uglifyjs2" %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script type="text/javascript">
         $(document).ready(function() {
             {% include "ReaderAdminBundle:Javascript:save.js.twig" %}
-            $("select").chosen();
+            $("select").chosen({ allow_single_deselect: true });
         });
     </script>
 {% endblock %}

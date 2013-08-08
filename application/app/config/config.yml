@@ -4,7 +4,7 @@ imports:
 
 framework:
     #esi:             ~
-    #translator:      { fallback: %locale% }
+    translator:      { fallback: %locale% }
     secret:          %secret%
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -37,6 +37,10 @@ assetic:
             node: %node_bin%
             node_paths: %node_modules%
             apply_to: "\.less$"
+        uglifyjs2:
+            bin: /usr/bin/uglifyjs
+        uglifycss:
+            bin: /usr/bin/uglifycss
     assets:
         bootstrap_css:
             inputs:
@@ -45,6 +49,7 @@ assetic:
             filters:
                 - less
                 - cssrewrite
+                - uglifycss
             output: css/bootstrap.css
         bootstrap_js:
             inputs:
@@ -61,10 +66,14 @@ assetic:
                 - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tab.js
                 - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-typeahead.js
                 - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-affix.js
+            filters:
+                - uglifyjs2
             output: js/bootstrap.js
         jquery:
             inputs:
                 - %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js
+            filters:
+                - uglifyjs2
             output: js/jquery.js
 
 # Bootstrap configuration
@@ -108,3 +117,9 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
+
+services:
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }

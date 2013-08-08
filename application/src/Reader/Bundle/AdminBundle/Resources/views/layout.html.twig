@@ -13,11 +13,11 @@
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         {% stylesheets
         "bundles/readeradmin/css/font-awesome.min.css"
-        "bundles/readeradmin/css/jquery.pnotify.css" filter="cssrewrite"
+        "bundles/readeradmin/css/jquery.pnotify.css" filter="cssrewrite,uglifycss"
         "bundles/readeradmin/css/admin.less"
         "bundles/readeradmin/css/admin-responsive.less"
         "bundles/readeradmin/css/stories.less"
-        "bundles/readeradmin/css/sites.less" filter="less,cssrewrite" %}
+        "bundles/readeradmin/css/sites.less" filter="less,cssrewrite,uglifycss" %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
     {% endblock %}
@@ -40,7 +40,7 @@
         <script src="{{ asset('js/bootstrap.js') }}"></script>
         {% javascripts
         "bundles/readeradmin/js/jquery.pnotify.min.js"
-        "bundles/readeradmin/js/application.js"%}
+        "bundles/readeradmin/js/application.js" filter='uglifyjs2' %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
 

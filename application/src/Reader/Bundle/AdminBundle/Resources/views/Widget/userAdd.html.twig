@@ -1,0 +1,9 @@
+{% extends "ReaderAdminBundle:Widget:layout.html.twig" %}
+
+{% block widgetHeader %}
+    <i class="icon-plus"></i><h3>Add user</h3>
+{% endblock %}
+
+{% block widgetContent %}
+    {% include "ReaderAdminBundle:Form:user.html.twig" with { "submitButton": "Add" } %}
+{% endblock %}

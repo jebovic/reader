@@ -1,0 +1,19 @@
+{% extends "ReaderAdminBundle:Widget:layout.html.twig" %}
+
+{% block widgetHeader %}
+    <div class="widget-actions">
+        <a class="action" data-placement="top" data-toggle="tooltip" href="{{ path( 'reader_admin_user_update', { 'id': user.id }) }}" title="Edit user"><i class="icon-pencil"></i></a>
+    </div>
+    <h2>{{ user.email }}</h2>
+{% endblock %}
+
+{% block widgetContent %}
+    <table class="table table-bordered table-striped">
+        <tbody>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

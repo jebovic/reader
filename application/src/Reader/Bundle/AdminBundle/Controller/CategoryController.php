@@ -23,7 +23,7 @@ class CategoryController extends Controller
             $form     = $this->createForm(new CategoryType(), $category );
             $form->submit( $request );
             if ($form->isValid()) {
-                // Persist site in DB
+                // Persist user in DB
                 $doctrine = $this->get('doctrine_mongodb')->getManager();
                 $doctrine->persist( $category );
                 $doctrine->flush();

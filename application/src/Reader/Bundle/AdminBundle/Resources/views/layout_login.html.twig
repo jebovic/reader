@@ -11,7 +11,7 @@
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         {% stylesheets
-        "bundles/readeradmin/css/login.less" filter="less,cssrewrite" %}
+        "bundles/readeradmin/css/login.less" filter="less,cssrewrite,uglifycss" %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
     {% endblock %}

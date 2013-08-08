@@ -61,3 +61,23 @@ reader_admin_site_purge:
 reader_admin_story_delete:
     pattern:  /story/delete/{id}
     defaults: { _controller: ReaderAdminBundle:Story:delete }
+
+reader_admin_user:
+    pattern:  /user
+    defaults: { _controller: ReaderAdminBundle:User:index }
+
+reader_admin_user_add:
+    pattern:  /user/add
+    defaults: { _controller: ReaderAdminBundle:User:add }
+
+reader_admin_user_update:
+    pattern:  /user/update/{id}
+    defaults: { _controller: ReaderAdminBundle:User:update }
+
+reader_admin_user_delete:
+    pattern:  /user/delete/{id}
+    defaults: { _controller: ReaderAdminBundle:User:delete }
+
+reader_admin_user_view:
+    pattern:  /user/view/{id}
+    defaults: { _controller: ReaderAdminBundle:User:view }
