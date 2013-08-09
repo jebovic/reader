@@ -14,3 +14,25 @@
         </div>
     </div>
 {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets "bundles/readeradmin/css/chosen.css" filter="cssrewrite,uglifycss" %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    {% javascripts
+    "bundles/readeradmin/js/chosen.jquery.min.js"
+    "bundles/readeradmin/js/shortcut.js" filter="uglifyjs2" %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            {% include "ReaderAdminBundle:Javascript:save.js.twig" %}
+            $("select").chosen({ allow_single_deselect: true });
+        });
+    </script>
+{% endblock %}

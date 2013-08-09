@@ -4,7 +4,7 @@ namespace Reader\Bundle\AdminBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Reader\Bundle\UserBundle\Document\User;
+use Symfony\Component\HttpFoundation\Response;
 use Reader\Bundle\AdminBundle\Form\Type\RegistrationType;
 use Reader\Bundle\AdminBundle\Form\Model\Registration;
 use Reader\Bundle\AdminBundle\Form\Type\UserType;
@@ -19,14 +19,47 @@ class UserController extends Controller
     {
         $doctrine           = $this->get('doctrine_mongodb');
         $userRepository     = $doctrine->getRepository('ReaderUserBundle:User');
-        $users              = $userRepository->findBy( array(), array( 'email' => 'ASC' ), 10, 0 );
+        $usersCount         = $userRepository->count();
 
         return $this->render(
             'ReaderAdminBundle:User:index.html.twig',
             array(
-                'users' => $users
+                'usersCount' => $usersCount
             )
         );
+    }
+
+    /**
+     * Get users list
+     * @param string $page
+     * @param int $limit
+     * @return mixed
+     */
+    public function listAction( $page, $limit = 10 )
+    {
+        $offset         = ( $limit * $page ) - $limit;
+        $doctrine       = $this->get('doctrine_mongodb');
+        $userRepository = $doctrine->getRepository('ReaderUserBundle:User');
+        $users          = $userRepository->findBy( array(), array( 'email' => 'ASC'), $limit, $offset );
+        $response       = new Response();
+
+        $response->headers->set( 'Content-Type', 'application/json' );
+        if ( !empty( $users ) )
+        {
+            $result  = array( 'success' => true, 'content' => '' );
+
+            $result['content'] = $this->render(
+                'ReaderAdminBundle:User:list.html.twig',
+                array(
+                    'users' => $users
+                )
+            )->getContent();
+            $response->setContent( json_encode( $result ) );
+            return $response;
+        }
+
+        $response->setContent( json_encode( array( 'success' => false ) ) );
+        return $response;
     }
 
     /**

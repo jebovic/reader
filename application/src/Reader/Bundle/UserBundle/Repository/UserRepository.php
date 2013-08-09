@@ -12,4 +12,12 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class UserRepository extends DocumentRepository
 {
+    public function count()
+    {
+        $qb    = $this->createQueryBuilder()
+            ->hydrate(false);
+        $query = $qb->getQuery();
+        $count = $query->execute()->count();
+        return $count;
+    }
 }

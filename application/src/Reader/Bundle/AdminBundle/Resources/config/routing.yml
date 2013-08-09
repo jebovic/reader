@@ -81,3 +81,7 @@ reader_admin_user_delete:
 reader_admin_user_view:
     pattern:  /user/view/{id}
     defaults: { _controller: ReaderAdminBundle:User:view }
+
+reader_admin_user_list:
+    pattern:  /user/list/{page}/{limit}
+    defaults: { _controller: ReaderAdminBundle:User:list }

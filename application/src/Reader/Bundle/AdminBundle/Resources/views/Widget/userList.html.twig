@@ -4,7 +4,7 @@
     <div class="widget-actions">
         <a class="action" data-placement="top" data-toggle="tooltip" href="{{ path('reader_admin_user_add') }}" title="Add user"><i class="icon-plus icon-white"></i></a>
     </div>
-    <h3>Users list</h3>
+    <h3>Users list <small id="usersCount">({{ usersCount }})</small></h3>
 {% endblock %}
 
 {% block widgetContent %}
@@ -17,26 +17,8 @@
             <th style="width: 70px;"></th>
         </tr>
         </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>
-                    <a href="{{ path('reader_admin_user_view', { 'id': user.id }) }}">{{ user.email }}</a>
-                </td>
-                <td>
-                    {% for role in user.roles %}
-                        {{ role|trans() }}{% if not loop.last %},&nbsp;{% endif %}
-                    {% endfor %}
-                </td>
-                <td>
-                    {{ user.created|localizeddate('full') }}
-                </td>
-                <td>
-                    <a href="{{ path('reader_admin_user_update', { 'id' : user.id }) }}" class="btn btn-small"><i class="icon-pencil"></i></a>&nbsp;
-                    <a href="{{ path('reader_admin_user_delete', { 'id' : user.id }) }}" class="btn btn-danger btn-small"><i class="icon-trash icon-white"></i></a>
-                </td>
-            </tr>
-        {% endfor %}
+        <tbody id="usersList">
         </tbody>
     </table>
+    <div class="usersPagination"></div>
 {% endblock %}

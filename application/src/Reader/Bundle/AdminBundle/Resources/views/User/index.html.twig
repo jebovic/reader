@@ -20,3 +20,38 @@
         </div>
     </div>
 {% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/readeradmin/js/jquery.simplePagination.js') }}"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            var limit = 10;
+            getUsers( 1 );
+
+            {% if usersCount %}
+            $('.usersPagination').pagination({
+                items: {{ usersCount }},
+                itemsOnPage: limit,
+                cssStyle: 'pagination pagination-centered',
+                onPageClick: function(pageNumber) {
+                    getUsers( pageNumber );
+                }
+            });
+            {% endif %}
+
+            function getUsers( page ) {
+                $.ajax({
+                    url: '/user/list/' + page + '/' + limit,
+                    success: function(data) {
+                        if ( data.success != false )
+                        {
+                            $('#usersList').html( data.content );
+                        }
+                    }
+                });
+            }
+
+        });
+    </script>
+{% endblock %}
