@@ -5,9 +5,16 @@ Reader\Bundle\UserBundle\Document\User:
             message: This email is already used.
     properties:
         email:
-            - NotBlank: ~
+            - NotBlank:
+                groups: [update_user, new_user]
             - Email:
+                groups: [update_user, new_user]
                 checkMX: true
                 checkHost: true
         password:
-            - NotBlank: ~
+            - NotBlank:
+                groups: [new_user]
+            - Length:
+                groups: [new_user]
+                min: 5
+                minMessage: Password must be at least {{ limit }} character long|Password must be at least {{ limit }} characters long

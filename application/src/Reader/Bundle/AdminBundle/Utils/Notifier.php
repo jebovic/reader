@@ -53,6 +53,7 @@ class Notifier {
             }
             $this->notify( 'Invalid fields', 'Some data you fill in the form are not valid<br>' . implode('<br>',$displayedErrors), 'error' );
         }
+        $this->notify( 'Invalid fields', 'Some data you fill in the form are not valid', 'error' );
         return true;
     }
 }

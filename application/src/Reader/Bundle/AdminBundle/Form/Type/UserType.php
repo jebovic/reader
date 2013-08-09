@@ -11,9 +11,9 @@ class UserType extends AbstractType
 {
     protected $roles;
 
-    public function __construct( $roles )
+    public function __construct()
     {
-        $this->roles = $roles;
+        $this->roles = array('ROLE_USER' => 'User', 'ROLE_ADMIN' => 'Admin');
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -42,8 +42,9 @@ class UserType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-                'data_class' => 'Reader\Bundle\UserBundle\Document\User'
-            ));
+            'validation_groups' => array('new_user'),
+            'data_class' => 'Reader\Bundle\UserBundle\Document\User',
+        ));
     }
 
     public function getName()

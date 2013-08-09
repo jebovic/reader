@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Reader\Bundle\AdminBundle\Form\Type\RegistrationType;
 use Reader\Bundle\AdminBundle\Form\Model\Registration;
-use Reader\Bundle\AdminBundle\Form\Type\UserType;
+use Reader\Bundle\AdminBundle\Form\Type\UserEditType;
 
 class UserController extends Controller
 {
@@ -118,7 +118,8 @@ class UserController extends Controller
 
         if ( !is_null( $user ) )
         {
-            $form = $this->createForm(new UserType( array('ROLE_USER' => 'User', 'ROLE_ADMIN' => 'Admin') ), $user);
+            $lastPassword = $user->getPassword();
+            $form = $this->createForm(new UserEditType(), $user);
             if ( $request->isMethod('POST') )
             {
                 $notifier = $this->get('reader_notifier');
@@ -132,6 +133,10 @@ class UserController extends Controller
                         $password = $encoder->encodePassword( $user->getPassword(), $user->getSalt());
                         $user->setPassword($password);
                     }
+                    else
+                    {
+                        $user->setPassword( $lastPassword );
+                    }
 
                     $doctrine = $this->get('doctrine_mongodb')->getManager();
                     $doctrine->flush();
@@ -142,16 +147,13 @@ class UserController extends Controller
                     $notifier->notifyInvalidForm( $form->getErrors() );
                 }
             }
-            else
-            {
-                return $this->render(
-                    'ReaderAdminBundle:User:update.html.twig',
-                    array(
-                        'user' => $user,
-                        'form' => $form->createView()
-                    )
-                );
-            }
+            return $this->render(
+                'ReaderAdminBundle:User:update.html.twig',
+                array(
+                    'user' => $user,
+                    'form' => $form->createView()
+                )
+            );
         }
         return $this->redirect( $this->generateUrl('reader_admin_user') );
     }

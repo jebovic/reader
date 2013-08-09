@@ -11,7 +11,7 @@
                     {% endfor %}
                 </td>
                 <td>
-                    {{ user.created|localizeddate('full')|raw }}
+                    {{ user.created|localizeddate('medium')|raw }}
                 </td>
                 <td>
                     <a href="{{ path('reader_admin_user_update', { 'id' : user.id })|raw }}" class="btn btn-small"><i class="icon-pencil"></i></a>&nbsp;
