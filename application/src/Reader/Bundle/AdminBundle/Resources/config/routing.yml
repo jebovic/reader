@@ -2,6 +2,10 @@ reader_admin_dashboard:
     pattern:  /
     defaults: { _controller: ReaderAdminBundle:Default:dashboard }
 
+reader_admin_random_stories:
+    pattern:  /random_stories/{limit}
+    defaults: { _controller: ReaderAdminBundle:Default:storiesRandom }
+
 reader_admin_login:
     pattern:  /login
     defaults: { _controller: ReaderAdminBundle:Default:login }
@@ -53,6 +57,10 @@ reader_admin_site_grab:
 reader_admin_site_stories:
     pattern:  /site/stories/{id}/{page}/{returnCount}/{limit}
     defaults: { _controller: ReaderAdminBundle:Site:stories }
+
+reader_admin_site_stories_random:
+    pattern:  /site/stories/random/{id}/{limit}
+    defaults: { _controller: ReaderAdminBundle:Site:storiesRandom }
 
 reader_admin_site_purge:
     pattern:  /site/purge/{id}

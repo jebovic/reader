@@ -225,6 +225,7 @@ class SiteController extends Controller
                         $storyDocument->setText( $story['html'] );
                         $storyDocument->setTitle( $story['title'] );
                         $storyDocument->setTextSum( $storySum );
+                        $storyDocument->setRandomizer();
 
                         $imageUrl = $story['image'];
                         if ( !is_null( $imageUrl ) && $imageUrl != '' )
@@ -279,6 +280,40 @@ class SiteController extends Controller
             {
                 $result['count'] = $storyRepository->countBySite( $site->getId() );
             }
+
+            $result['content'] = $this->render(
+                'ReaderAdminBundle:Site:stories.html.twig',
+                array(
+                    'stories' => $stories
+                )
+            )->getContent();
+            $response->setContent( json_encode( $result ) );
+            return $response;
+        }
+
+        $response->setContent( json_encode( array( 'success' => false ) ) );
+        return $response;
+    }
+
+    /**
+     * Get random stories
+     * @param string $id
+     * @param int $limit
+     * @return mixed
+     */
+    public function storiesRandomAction($id, $limit = 10 )
+    {
+        $doctrine       = $this->get('doctrine_mongodb');
+        $siteRepository = $doctrine->getRepository('ReaderBundle:Site');
+        $site           = $siteRepository->find( $id );
+        $response       = new Response();
+        $response->headers->set( 'Content-Type', 'application/json' );
+        if ( !is_null( $site ) )
+        {
+            $storyRepository = $doctrine->getRepository('ReaderBundle:Story');
+
+            $stories = $storyRepository->findRandom( $site->getId(), $limit );
+            $result  = array( 'success' => true, 'content' => '', 'count' => '' );
 
             $result['content'] = $this->render(
                 'ReaderAdminBundle:Site:stories.html.twig',

@@ -17,10 +17,20 @@ Reader\Bundle\ReaderBundle\Document\Story:
             type: int
         image:
             type: string
+        randomizer:
+            type: collection
+    indexes:
+        random:
+            keys:
+                randomizer: 2d
     referenceOne:
         site:
             targetDocument: Reader\Bundle\ReaderBundle\Document\Site
             nullable: false
+#    embedOne:
+#        randomizer:
+#            targetDocument: Reader\Bundle\ReaderBundle\Document\Randomizer
+#            nullable: false
     lifecycleCallbacks:
         preRemove: [ storeFilenameForRemove ]
         postRemove: [ removeUpload ]

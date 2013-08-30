@@ -15,6 +15,7 @@ class Story
     protected $position;
     protected $image;
     protected $temp;
+    protected $randomizer;
     /**
      * @var \MongoId $id
      */
@@ -258,13 +259,16 @@ class Story
         $fileName = sha1( $url );
         $filePath = sprintf('%s/%s', $saveDir, $fileName );
 
-        $ch = curl_init( $url );
-        $fp = fopen( $filePath, 'wb' );
-        curl_setopt($ch, CURLOPT_FILE, $fp);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_exec($ch);
-        curl_close($ch);
-        fclose($fp);
+        try {
+            $ch = curl_init( $url );
+            $fp = fopen( $filePath, 'wb' );
+            curl_setopt($ch, CURLOPT_FILE, $fp);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_exec($ch);
+            curl_close($ch);
+            fclose($fp);
+        } catch (\Exception $e) {
+        }
 
         return $fileName;
     }
@@ -282,9 +286,24 @@ class Story
      */
     public function removeUpload()
     {
-        if (isset($this->temp)) {
+        if ( isset($this->temp) && file_exists( $this->temp ) ) {
             unlink($this->temp);
         }
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRandomizer()
+    {
+        return $this->randomizer;
+    }
+
+    /**
+     * @param Randomizer
+     */
+    public function setRandomizer()
+    {
+        $this->randomizer = array( (float) lcg_value(), (float) 0);
+    }
 }

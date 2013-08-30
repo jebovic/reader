@@ -1,0 +1,26 @@
+{% spaceless %}
+    {% autoescape 'js' %}
+        {% for story in stories %}
+            <div class="story">
+                <a class="btn btn-danger btn-mini pull-right delete-story" href="#" data-target="{{ story.id }}" data-site="{{ story.site.id }}">
+                    <i class="icon-white icon-trash"></i>
+                </a>
+                {% if story.image %}
+                    <div class="image">
+                        <a class="imageModal" href="#imageModal" data-toggle="modal" data-content="storyContent{{ story.id }}"><img src="{{ story.image|raw }}" alt="" /></a>
+                    </div>
+                {% endif %}
+                <div id="storyContent{{ story.id }}" class="text{% if story.image %} withImage{% endif %}">
+                    {% if story.title %}
+                        <p><strong>{{ story.title|raw }}</strong></p>
+                    {% endif %}
+                    <p>{{ story.text|raw }}</p>
+                </div>
+                {% if story.image %}
+                    <div class="clearfix"></div>
+                {% endif %}
+                <em>from {{ story.site.title|raw }}</em>
+            </div>
+        {% endfor %}
+    {% endautoescape %}
+{% endspaceless %}

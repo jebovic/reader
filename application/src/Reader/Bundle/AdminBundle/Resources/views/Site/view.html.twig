@@ -10,6 +10,7 @@
         <div class="row">
             <div class="span6">
                 {% include "ReaderAdminBundle:Widget:siteDetails.html.twig" with {'table': true} %}
+                {% include "ReaderAdminBundle:Widget:siteStoriesRandom.html.twig" with {'table': false} %}
             </div>
             <div class="span6">
                 {% include "ReaderAdminBundle:Widget:siteStories.html.twig" with {'table': false} %}
@@ -25,6 +26,7 @@
         jQuery(document).ready(function($) {
             var limit = 10;
             getStories( 1, 0);
+            getRandomStories();
 
             {% if storiesCount %}
             $('.storiesPagination').pagination({
@@ -62,7 +64,7 @@
                 });
             });
 
-            $('#stories').on( 'click', '.imageModal', function(e) {
+            $('#stories, #storiesRandom').on( 'click', '.imageModal', function(e) {
                 var modal = $('#imageModal');
                 var $t = $(this);
                 modal.find('.modal-body').html( $t.html() + $( '#' + $t.attr('data-content')).html() );
@@ -142,6 +144,18 @@
                                     }
                                 });
                             }
+                        }
+                    }
+                });
+            }
+
+            function getRandomStories() {
+                $.ajax({
+                    url: '/site/stories/random/{{ site.id }}/' + 3,
+                    success: function(data) {
+                        if ( data.success != false )
+                        {
+                            $('#storiesRandom').html( data.content );
                         }
                     }
                 });

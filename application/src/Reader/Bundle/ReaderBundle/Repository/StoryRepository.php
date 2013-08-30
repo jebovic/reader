@@ -47,4 +47,29 @@ class StoryRepository extends DocumentRepository
         $count    = $query->execute()->count();
         return $count;
     }
+
+    public function findRandom( $siteId = null, $limit = 10 )
+    {
+        $qb = $this->createQueryBuilder();
+        if ( $limit )
+        {
+            $qb->limit($limit);
+        }
+        if ( !is_null( $siteId ) )
+        {
+            $qb->field('site.id')->equals( $siteId );
+        }
+
+        $qb->field('randomizer')->near( lcg_value(), 0 );
+
+        $query      = $qb->getQuery();
+        $results    = $query->execute();
+        $searchHits = array();
+        foreach( $results as $searchHit )
+        {
+            $searchHits[] = $searchHit;
+        }
+
+        return $searchHits;
+    }
 }

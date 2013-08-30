@@ -33,6 +33,13 @@
                     {% include "ReaderAdminBundle:Widget:siteStoriesOverview.html.twig" with {'table': false} %}
                 </div>
             {% endfor %}
+            <div id="imageModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 id="myModalLabel">Story preview</h3>
+                </div>
+                <div class="modal-body"></div>
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -45,6 +52,12 @@
             var stories = $('.stories');
             stories.each( function() {
                 getStories( 1, 1, $(this).attr('data-site') );
+            });
+
+            $('.stories').on( 'click', '.imageModal', function(e) {
+                var modal = $('#imageModal');
+                var $t = $(this);
+                modal.find('.modal-body').html( $t.html() + $( '#' + $t.attr('data-content')).html() );
             });
 
             stories.on( 'click', '.delete-story', function(e) {

@@ -4,6 +4,7 @@ namespace Reader\Bundle\AdminBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContext;
 
 class DefaultController extends Controller
@@ -15,6 +16,31 @@ class DefaultController extends Controller
     public function dashboardAction()
     {
         return $this->render('ReaderAdminBundle:Default:dashboard.html.twig', array());
+    }
+
+    /**
+     * Get random stories
+     * @param int $limit
+     * @return mixed
+     */
+    public function storiesRandomAction( $limit = 10 )
+    {
+        $doctrine        = $this->get('doctrine_mongodb');
+        $storyRepository = $doctrine->getRepository('ReaderBundle:Story');
+        $response        = new Response();
+        $response->headers->set( 'Content-Type', 'application/json' );
+
+        $stories = $storyRepository->findRandom( null, $limit );
+        $result  = array( 'success' => true, 'content' => '', 'count' => '' );
+
+        $result['content'] = $this->render(
+            'ReaderAdminBundle:Default:stories.html.twig',
+            array(
+                'stories' => $stories
+            )
+        )->getContent();
+        $response->setContent( json_encode( $result ) );
+        return $response;
     }
 
     public function loginAction(Request $request)
