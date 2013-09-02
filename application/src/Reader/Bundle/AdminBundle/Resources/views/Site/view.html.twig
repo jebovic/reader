@@ -10,7 +10,6 @@
         <div class="row">
             <div class="span6">
                 {% include "ReaderAdminBundle:Widget:siteDetails.html.twig" with {'table': true} %}
-                {% include "ReaderAdminBundle:Widget:siteStoriesRandom.html.twig" with {'table': false} %}
             </div>
             <div class="span6">
                 {% include "ReaderAdminBundle:Widget:siteStories.html.twig" with {'table': false} %}
@@ -26,7 +25,6 @@
         jQuery(document).ready(function($) {
             var limit = 10;
             getStories( 1, 0);
-            getRandomStories();
 
             {% if storiesCount %}
             $('.storiesPagination').pagination({
@@ -46,8 +44,17 @@
                 grabStories( startPage );
             });
 
+            $('#showRandomStories').click( function(e){
+                e.preventDefault();
+                displayRandomStories( false);
+            });
 
-            $('#stories').on( 'click', '.delete-story', function(e) {
+            $('#moreRandomStories').click( function(e){
+                e.preventDefault();
+                displayRandomStories( true );
+            });
+
+            $('#stories, #randomStories').on( 'click', '.delete-story', function(e) {
                 e.preventDefault();
                 var $t = $( this );
                 $t.addClass('disabled');
@@ -149,16 +156,31 @@
                 });
             }
 
-            function getRandomStories() {
+            function getRandomStories( limit, append ) {
                 $.ajax({
-                    url: '/site/stories/random/{{ site.id }}/' + 3,
+                    url: '/site/stories/random/{{ site.id }}/' + limit,
                     success: function(data) {
                         if ( data.success != false )
                         {
-                            $('#storiesRandom').html( data.content );
+                            if ( append )
+                            {
+                                $('#randomStories').append( data.content );
+                            }
+                            else
+                            {
+                                $('#randomStories').html( data.content );
+                            }
                         }
                     }
                 });
+            }
+
+            function displayRandomStories( append ) {
+                getRandomStories( 10, append )
+                if ( !append )
+                {
+                    $('#randomStoriesModal').modal();
+                }
             }
 
         });
