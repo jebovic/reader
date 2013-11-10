@@ -1,6 +1,6 @@
 <?php
 
-namespace Reader\Bundle\DesignBundle\DependencyInjection;
+namespace Reader\Bundle\FrontBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class ReaderDesignExtension extends Extension
+class ReaderFrontExtension extends Extension
 {
     /**
      * {@inheritDoc}

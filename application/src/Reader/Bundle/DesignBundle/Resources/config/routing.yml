@@ -1,3 +1,0 @@
-reader_design_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: ReaderDesignBundle:Default:index }

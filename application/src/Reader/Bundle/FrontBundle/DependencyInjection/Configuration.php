@@ -1,6 +1,6 @@
 <?php
 
-namespace Reader\Bundle\DesignBundle\DependencyInjection;
+namespace Reader\Bundle\FrontBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('reader_design');
+        $rootNode = $treeBuilder->root('reader_front');
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

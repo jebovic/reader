@@ -1,0 +1,15 @@
+reader_front_homepage:
+    pattern:  /
+    defaults: { _controller: ReaderFrontBundle:Default:index }
+
+reader_front_login:
+    pattern:  /login
+    defaults: { _controller: ReaderFrontBundle:Default:login }
+
+reader_front_login_check:
+    pattern:  /login_check
+    defaults: { _controller: ReaderFrontBundle:Default:securityCheck }
+
+reader_front_logout:
+    pattern:  /logout
+    defaults: { _controller: ReaderFrontBundle:Default:logout }

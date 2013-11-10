@@ -1,13 +1,14 @@
+reader_front:
+    resource: "@ReaderFrontBundle/Resources/config/routing.yml"
+    host:     '%public_host%'
+    prefix:   /
+
 reader_user:
     resource: "@ReaderUserBundle/Resources/config/routing.yml"
     prefix:   /
 
 reader_grabber:
     resource: "@ReaderGrabberBundle/Resources/config/routing.yml"
-    prefix:   /
-
-reader_design:
-    resource: "@ReaderDesignBundle/Resources/config/routing.yml"
     prefix:   /
 
 reader:

@@ -1,0 +1,7 @@
+parameters:
+#    reader_front.example.class: Reader\Bundle\FrontBundle\Example
+
+services:
+#    reader_front.example:
+#        class: %reader_front.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

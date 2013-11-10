@@ -29,7 +29,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ReaderAdminBundle]
+    bundles:        [ReaderAdminBundle,ReaderFrontBundle]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -38,9 +38,9 @@ assetic:
             node_paths: %node_modules%
             apply_to: "\.less$"
         uglifyjs2:
-            bin: /usr/bin/uglifyjs
+            bin: /usr/local/bin/uglifyjs
         uglifycss:
-            bin: /usr/bin/uglifycss
+            bin: /usr/local/bin/uglifycss
     assets:
         bootstrap_css:
             inputs:

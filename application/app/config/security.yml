@@ -31,6 +31,17 @@ security:
                 path:   reader_admin_logout
                 target: /
 
+        front:
+            pattern:    ^/
+            anonymous: true
+            provider: reader_users
+            form_login:
+                check_path: reader_front_login_check
+                login_path: reader_front_login
+            logout:
+                path:   reader_front_logout
+                target: /
+
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY, host: %admin_host% }
         - { path: ^/, roles: ROLE_ADMIN, host: %admin_host% }

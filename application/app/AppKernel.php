@@ -20,9 +20,9 @@ class AppKernel extends Kernel
             new Reader\Bundle\AdminBundle\ReaderAdminBundle(),
             new Reader\Bundle\ReaderBundle\ReaderBundle(),
             new Bc\Bundle\BootstrapBundle\BcBootstrapBundle(),
-            new Reader\Bundle\DesignBundle\ReaderDesignBundle(),
             new Reader\Bundle\GrabberBundle\ReaderGrabberBundle(),
             new Reader\Bundle\UserBundle\ReaderUserBundle(),
+            new Reader\Bundle\FrontBundle\ReaderFrontBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
