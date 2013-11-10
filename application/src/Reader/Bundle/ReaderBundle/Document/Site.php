@@ -471,4 +471,8 @@ class Site
         return self::LOGOS_DIR;
     }
 
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
 }

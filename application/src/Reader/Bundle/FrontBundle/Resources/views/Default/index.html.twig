@@ -5,27 +5,42 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="stories">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="stories" id="masonryContainer">
                 {% for story in stories %}
-                    <div class="story">
-                        {% if story.image %}
-                            <div class="image">
-                                <a class="imageModal" href="#imageModal" data-toggle="modal" data-content="storyContent{{ story.id }}"><img src="{{ story.image|raw }}" alt="" /></a>
-                            </div>
-                        {% endif %}
-                        <div id="storyContent{{ story.id }}" class="text{% if story.image %} withImage{% endif %}">
-                            {% if story.title %}
-                                <p><strong>{{ story.title|raw }}</strong></p>
+                    <div id="story{{ story.id }}" class="story masonryItem{% if story.text|striptags|length > 400 %} double{% endif %}">
+                        <div class="header">
+                            {% if story.site.logoPath %}
+                                <img src="{{ story.site.logoPath }}" alt="{{ story.site }}" />
                             {% endif %}
-                            <p>{{ story.text|raw }}</p>
+                            {{ story.site }}
                         </div>
                         {% if story.image %}
-                            <div class="clearfix"></div>
+                            <div class="image">
+                                <a class="imageModal" href="#imageModal" data-toggle="modal" data-content="storyContent{{ story.id }}"><img src="{{ story.image }}" alt="" /></a>
+                            </div>
                         {% endif %}
+                        <div class="content">
+                            <div id="storyContent{{ story.id }}" class="text{% if story.image %} withImage{% endif %}">
+                                {% if story.title %}
+                                    <p><strong>{{ story.title|raw }}</strong></p>
+                                {% endif %}
+                                <p>{{ story.text|raw }}</p>
+                            </div>
+                            {% if story.image %}
+                                <div class="clearfix"></div>
+                            {% endif %}
+                        </div>
                     </div>
                 {% endfor %}
+            </div>
+            <div id="imageModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 id="imageModalLabel">Story preview</h3>
+                </div>
+                <div class="modal-body"></div>
             </div>
         </div>
     </div>

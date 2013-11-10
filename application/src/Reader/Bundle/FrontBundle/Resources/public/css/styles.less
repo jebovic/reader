@@ -3,6 +3,14 @@
 body {
     background-color: @bgColor;
 }
+::selection {
+    background: @palette2-2;
+    color: @white;
+}
+::-moz-selection {
+    background: @palette2-2;
+    color: @white;
+}
 
 .navbar {
     a.login {
@@ -11,17 +19,43 @@ body {
         top: 0;
         right: 20px;
     }
+    .brand {
+        color: @palette2-2;
+        &:hover {
+            color: lighten(@palette2-2,10%);
+        }
+    }
+    h2.auth {
+        color: @grayLighter;
+    }
 }
 
 .stories {
     padding-top: 60px;
     padding-bottom: 60px;
     .story {
-        margin: 10px;
-        padding: 10px;
-        background-color: @white;
+        width: 250px;
+        margin-bottom: 10px;
+        background-color: @storyColor;
+        border-bottom: 3px solid darken(@storyColor, 60%);
+        .header {
+            color: @grayLighter;
+            background-color: darken(@storyColor, 60%);
+            line-height: 31px;
+            font-size: 0.9em;
+            padding-right: 10px;
+            img {
+                margin-right: 10px;
+            }
+        }
+        .content {
+            padding: 10px;
+        }
         span.decoration {
-            color: @primary;
+            color: @palette2-2;
+        }
+        &.double {
+            width: 530px
         }
     }
 }

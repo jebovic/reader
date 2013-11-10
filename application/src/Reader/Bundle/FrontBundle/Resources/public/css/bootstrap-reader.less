@@ -1,0 +1,56 @@
+@import "variables.less";
+
+.btn {
+    transition: background-color 0.4s;
+    -webkit-transition: background-color 0.4s;
+    display: inline-block;
+    padding: 4px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    color: #333;
+    text-shadow: none;
+    background-color: #F5F5F5;
+    background-image: none;
+    filter: none;
+    border-color: black;
+    border: 1px solid #CCC;
+    border-radius: 0px;
+    box-shadow: none;
+}
+
+.btn-palette1 {
+    color: @white;
+    background-color: @palette2-1;
+    border-color: @palette2-1 @palette2-1 darken(@palette2-1,10%);
+    &:hover {
+        color: @white;
+        background-color: lighten(@palette2-1,10%);
+    }
+}
+.btn-palette2 {
+    color: @white;
+    background-color: @palette2-2;
+    border-color: @palette2-2 @palette2-2 darken(@palette2-2,10%);
+    &:hover {
+        color: @white;
+        background-color: lighten(@palette2-2,10%);
+    }
+}
+.btn-palette3 {
+    background-color: @palette2-3;
+    border-color: @palette2-3 @palette2-3 darken(@palette2-3,10%);
+    &:hover {
+        background-color: lighten(@palette2-3,10%);
+    }
+}
+.btn-palette4 {
+    background-color: @palette2-4;
+    border-color: @palette2-4 @palette2-4 darken(@palette2-4,10%);
+    &:hover {
+        background-color: lighten(@palette2-4,10%);
+    }
+}

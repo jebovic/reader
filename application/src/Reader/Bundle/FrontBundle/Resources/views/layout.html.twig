@@ -11,6 +11,7 @@
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         {% stylesheets
+        "bundles/readerfront/css/bootstrap-reader.less"
         "bundles/readerfront/css/styles.less" filter="less,cssrewrite,uglifycss" %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
@@ -19,18 +20,34 @@
 
 <body>
     {% include 'ReaderFrontBundle::header.html.twig' %}
+
     {% block content %}{% endblock %}
+
     <!-- Javascripts -->
     <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ asset('js/bootstrap.js') }}"></script>
+    {% javascripts
+        "bundles/readerfront/js/vendor/masonry.pkgd.min.js" filter="uglifyjs2" %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
     <script type="text/javascript">
         var showLoginForm = function( event ) {
             event.preventDefault();
             $('#loginForm').toggleClass('hidden');
         }
+        var container = $('#masonryContainer');
         $(document).ready(function() {
-
+            container.masonry({
+                columnWidth: 270,
+                itemSelector: '.masonryItem',
+                gutter: 10
+            });
             $('body').on( 'click', '.login', showLoginForm );
+            $('.stories').on( 'click', '.imageModal', function(e) {
+                var modal = $('#imageModal');
+                var $t = $(this);
+                modal.find('.modal-body').html( $t.html() + $( '#' + $t.attr('data-content')).html() );
+            })
         });
     </script>
 </body>
