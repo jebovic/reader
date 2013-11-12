@@ -3,6 +3,9 @@
 namespace Reader\Bundle\FrontBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\SecurityContext;
 
 class DefaultController extends Controller
 {
@@ -25,7 +28,7 @@ class DefaultController extends Controller
         }
 
         return $this->render(
-            'ReaderFrontBundle:Default:index.html.twig',
+            'ReaderFrontBundle:Default:login.html.twig',
             array(
                 'last_username' => $request->getSession()->get(SecurityContext::LAST_USERNAME),
                 'error' => $error,

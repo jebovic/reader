@@ -1,0 +1,17 @@
+{% extends "ReaderFrontBundle::layout_login.html.twig" %}
+
+{% block title %}{{ parent() }} - Sign in{%  endblock %}
+
+{% block content %}
+    <div class="container" style="width: 500px;">
+        <form action="{{ path("reader_front_login_check") }}" method="post" id="login" class="form-signin">
+            <h1 class="title">Authentication</h1>
+            {% if error %}
+                <div class="alert alert-error">{{ error.message }}</div>
+            {% endif %}
+            <input type="text" class="input-block-level" placeholder="Username" id="username" name="_username" value="{{ last_username }}">
+            <input type="password" class="input-block-level" placeholder="Password" id="password" name="_password">
+            <button class="btn btn-large btn-palette2 btn-block" type="submit">Sign in</button>
+        </form>
+    </div>
+{% endblock %}

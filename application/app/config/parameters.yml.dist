@@ -19,3 +19,5 @@ parameters:
 
     node_bin:          /usr/bin/nodejs
     node_modules:      [/usr/local/lib/node_modules]
+    uglifyjs2_bin:     /usr/local/bin/uglifyjs
+    uglifycss_bin:     /usr/local/bin/uglifycss
