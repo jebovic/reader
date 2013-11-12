@@ -4,7 +4,8 @@ namespace Reader\Bundle\GrabberBundle\Service;
 
 use Reader\Bundle\ReaderBundle\Document\Site;
 use Symfony\Component\DomCrawler\Crawler;
-use Goutte\Client;
+use Reader\Bundle\GrabberBundle\Service\GrabberClient;
+
 
 class Grabber
 {
@@ -24,9 +25,11 @@ class Grabber
 
     public function grab()
     {
-        $client  = new Client();
+        $client  = new GrabberClient();
         $url     = $this->constructUrl();
-        $crawler = $client->request('GET', $url);
+        $crawler = $client
+            ->setHeader('Content-Type', 'text/html; charset=utf-8')
+            ->request('GET', $url);
         $stories = $this->getStories( $crawler );
         return $stories;
     }

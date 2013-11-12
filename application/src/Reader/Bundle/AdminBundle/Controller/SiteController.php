@@ -268,7 +268,7 @@ class SiteController extends Controller
         $siteRepository = $doctrine->getRepository('ReaderBundle:Site');
         $site           = $siteRepository->find( $id );
         $response       = new Response();
-        $response->headers->set( 'Content-Type', 'application/json' );
+        $response->headers->set( 'Content-Type', 'application/json; charset=utf-8;' );
         if ( !is_null( $site ) )
         {
             $storyRepository = $doctrine->getRepository('ReaderBundle:Story');
@@ -336,6 +336,7 @@ class SiteController extends Controller
      */
     public function purgeStoriesAction($id)
     {
+        $notifier       = $this->get('reader_notifier');
         $doctrine       = $this->get('doctrine_mongodb');
         $siteRepository = $doctrine->getRepository('ReaderBundle:Site');
         $site           = $siteRepository->find( $id );
@@ -355,7 +356,10 @@ class SiteController extends Controller
                     $dm->flush();
                 }
             }
-            $notifier = $this->get('reader_notifier');
+            else
+            {
+                $notifier->notify( 'No stories to remove', 'error' );
+            }
             $notifier->notify( 'Stories have been deleted', $siteTitle . ' stories have been deleted' );
         }
         return $this->redirect( $this->generateUrl('reader_admin_site_view', array( 'id' => $id) ) );
