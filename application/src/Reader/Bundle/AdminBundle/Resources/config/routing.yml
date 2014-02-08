@@ -93,3 +93,7 @@ reader_admin_user_view:
 reader_admin_user_list:
     pattern:  /user/list/{page}/{limit}
     defaults: { _controller: ReaderAdminBundle:User:list }
+
+reader_admin_test:
+    pattern:  /test
+    defaults: { _controller: ReaderAdminBundle:Default:test }

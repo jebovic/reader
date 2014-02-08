@@ -1,0 +1,31 @@
+fos_elastica:
+    clients:
+        default: { host: localhost, port: 9200 }
+    serializer:
+        callback_class: FOS\ElasticaBundle\Serializer\Callback
+        serializer: serializer
+    indexes:
+        reader:
+            client: default
+            settings:
+                index:
+                    analysis:
+                        analyzer:
+                            custom_french_analyzer:
+                                type: custom
+                                tokenizer: letter
+                                filter: ["asciifolding", "lowercase", "french_stem", "stop_fr"]
+                        filter:
+                            stop_fr:
+                                type: "stop"
+                                stopwords: ["l", "m", "t", "qu", "n", "s", "j", "d"]
+            types:
+                Story:
+                    mappings:
+                        text: { analyzer: custom_french_analyzer }
+                        title: { analyzer: custom_french_analyzer }
+                    persistence:
+                        driver: mongodb
+                        model: Reader\Bundle\ReaderBundle\Document\Story
+                        provider: ~
+                        finder: ~

@@ -23,6 +23,8 @@ class AppKernel extends Kernel
             new Reader\Bundle\GrabberBundle\ReaderGrabberBundle(),
             new Reader\Bundle\UserBundle\ReaderUserBundle(),
             new Reader\Bundle\FrontBundle\ReaderFrontBundle(),
+            new \JMS\SerializerBundle\JMSSerializerBundle(),
+            new \FOS\ElasticaBundle\FOSElasticaBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

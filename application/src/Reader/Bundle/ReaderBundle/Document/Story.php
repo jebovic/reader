@@ -2,6 +2,10 @@
 
 namespace Reader\Bundle\ReaderBundle\Document;
 
+/**
+ * Class Story
+ * @package Reader\Bundle\ReaderBundle\Document
+ */
 class Story
 {
     const IMAGES_DIR = '/uploads/images';

@@ -37,7 +37,9 @@
         "braincrafted/bootstrap-bundle": "dev-master",
         "jquery/jquery": "1.9.*",
         "twitter/bootstrap": "2.3.*",
-        "fabpot/goutte": "dev-master"
+        "fabpot/goutte": "dev-master",
+        "jms/serializer-bundle": "0.13.0",
+        "friendsofsymfony/elastica-bundle": "3.0.*@dev"
     },
     "config": {
         "bin-dir": "application/bin",
