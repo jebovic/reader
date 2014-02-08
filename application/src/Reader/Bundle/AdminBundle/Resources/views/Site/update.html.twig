@@ -17,7 +17,9 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {% stylesheets "bundles/readeradmin/css/chosen.css" filter="cssrewrite,uglifycss" %}
+    {% stylesheets
+        "bundles/readeradmin/css/chosen.css"
+        "bundles/readeradmin/css/pick-a-color-1.1.8.min.css" filter="cssrewrite,uglifycss" %}
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 {% endblock %}
@@ -26,6 +28,8 @@
     {{ parent() }}
     {% javascripts
         "bundles/readeradmin/js/chosen.jquery.min.js"
+        "bundles/readeradmin/js/tinycolor-0.9.15.min.js"
+        "bundles/readeradmin/js/pick-a-color-1.1.8.min.js"
         "bundles/readeradmin/js/shortcut.js" filter="uglifyjs2" %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -33,6 +37,10 @@
         $(document).ready(function() {
             {% include "ReaderAdminBundle:Javascript:save.js.twig" %}
             $("select").chosen();
+            $(".pick-a-color").pickAColor();
+        });
+        $(window).load( function(){
+            $('.dropdown-toggle').dropdown();
         });
     </script>
 {% endblock %}

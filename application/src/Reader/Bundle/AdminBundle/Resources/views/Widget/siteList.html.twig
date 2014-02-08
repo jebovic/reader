@@ -19,8 +19,9 @@
         <tbody>
         {% for site in sites %}
             <tr>
-                <td>
+                <td style="border-left: 3px solid #{{ site.color|default('fff') }};">
                     {% if site.featured %}<i class="icon-star featured"></i>&nbsp;{% endif %}
+                    {% if site.logoPath %}<div style="display: inline-block; background-color: #{{ site.color|default('fff') }};"><img src="{{ site.logoPath }}" /></div>&nbsp;{% endif %}
                     <a href="{{ path('reader_admin_site_view', { 'id': site.id }) }}">{{ site.title }}</a>
                 </td>
                 <td>

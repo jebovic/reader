@@ -106,6 +106,14 @@ class SiteType extends AbstractType
                 'label' => 'Logo',
                 'required' => false
             ));
+
+        $builder->add( 'color', null, array(
+                'label' => 'Color',
+                'required' => false,
+                'attr' => array(
+                    'class' => 'pick-a-color',
+                ),
+            ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

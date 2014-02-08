@@ -31,6 +31,8 @@ Reader\Bundle\ReaderBundle\Document\Site:
             type: boolean
         logoPath:
             type: string
+        color:
+            type: string
     referenceMany:
         categories:
             targetDocument: Reader\Bundle\ReaderBundle\Document\Category

@@ -26,6 +26,7 @@ class Site
     protected $logo;
     protected $logoPath;
     protected $logoTemp;
+    protected $color;
     /**
      * @var \MongoId $id
      */
@@ -351,13 +352,13 @@ class Site
     }
 
     /**
-     * Sets logo path.
-     *
-     * @param string $path
+     * @param $path
+     * @return $this
      */
     public function setLogoPath( $path )
     {
         $this->logoPath = $path;
+        return $this;
     }
 
     /**
@@ -371,9 +372,8 @@ class Site
     }
 
     /**
-     * Sets logo.
-     *
      * @param UploadedFile $file
+     * @return $this
      */
     public function setLogo(UploadedFile $file = null)
     {
@@ -385,6 +385,7 @@ class Site
         } else {
             $this->logoPath = 'initial';
         }
+        return $this;
     }
 
     /**
@@ -474,5 +475,23 @@ class Site
     public function __toString()
     {
         return $this->getTitle();
+    }
+
+    /**
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * @param $color
+     * @return $this
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+        return $this;
     }
 }
