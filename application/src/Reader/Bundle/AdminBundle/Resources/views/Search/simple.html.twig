@@ -1,0 +1,55 @@
+{% extends "ReaderAdminBundle::layout.html.twig" %}
+
+{% block header %}
+    {% set active = 'dashboard' %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Search results</h1>
+        <div class="row">
+            <div class="span12">
+                {% include "ReaderAdminBundle:Widget:searchResults.html.twig" with {'table': false} %}
+            </div>
+            <div id="imageModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 id="myModalLabel">Story preview</h3>
+                </div>
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $('#stories').on( 'click', '.imageModal', function(e) {
+                var modal = $('#imageModal');
+                var $t = $(this);
+                modal.find('.modal-body').html( $t.html() + $( '#' + $t.attr('data-content')).html() );
+            });
+
+            $('#stories').on( 'click', '.delete-story', function(e) {
+                e.preventDefault();
+                var $t = $( this );
+                $t.addClass('disabled');
+                $.ajax({
+                    url: '/story/delete/' + $t.attr('data-target'),
+                    success: function(data) {
+                        if ( data.success )
+                        {
+                            $t.parent('.story').slideUp('200', function(){
+                                getStories( 1, 1 );
+                            })
+                        }
+                    }
+                });
+            });
+
+        });
+    </script>
+{% endblock %}

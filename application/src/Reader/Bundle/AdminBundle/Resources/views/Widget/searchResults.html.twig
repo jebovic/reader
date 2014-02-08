@@ -1,0 +1,27 @@
+{% extends "ReaderAdminBundle:Widget:layout.html.twig" %}
+
+{% block widgetHeader %}
+    <h2>Stories <small id="storiesCount">({{ storiesCount }})</small></h2>
+{% endblock %}
+
+{% block widgetContent %}
+    <div class="storiesPagination"></div>
+    <div id="stories">
+        {% include "ReaderAdminBundle:Default:stories.html.twig" %}
+    </div>
+    <div class="storiesPagination"></div>
+    <div id="imageModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3 id="myModalLabel">Story preview</h3>
+        </div>
+        <div class="modal-body"></div>
+    </div>
+    <div id="randomStoriesModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="randomStoriesModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3 id="randomStoriesModalLabel">Random stories</h3>
+        </div>
+        <div class="modal-body"><div id="randomStories"></div><a href="#" id="moreRandomStories" class="btn btn-secondary btn-block">More stories</a></div>
+    </div>
+{% endblock %}

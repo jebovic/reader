@@ -97,3 +97,7 @@ reader_admin_user_list:
 reader_admin_test:
     pattern:  /test
     defaults: { _controller: ReaderAdminBundle:Default:test }
+
+reader_admin_search:
+    pattern:  /search
+    defaults: { _controller: ReaderAdminBundle:Search:simple }

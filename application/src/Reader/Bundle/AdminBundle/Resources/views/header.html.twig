@@ -59,6 +59,12 @@
                         </a>
                     </li>
                 </ul>
+                <form class="navbar-form navbar-right pull-right form-search" role="search" method="post" action="{{ path('reader_admin_search') }}">
+                    <div class="input-append">
+                        <input value="{{ searchText|default('') }}" type="text" class="form-control input-sm search-query" placeholder="Search" name="searchText">
+                        <button type="submit" class="btn btn-primary"><i class="icon-search"></i></button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

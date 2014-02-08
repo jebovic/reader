@@ -29,3 +29,7 @@ fos_elastica:
                         model: Reader\Bundle\ReaderBundle\Document\Story
                         provider: ~
                         finder: ~
+                        listener:
+                            insert: false
+                            update: false
+                            delete: true
