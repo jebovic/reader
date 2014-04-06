@@ -1,0 +1,3 @@
+reader_api_stories:
+    pattern:  /stories/{limit}
+    defaults: { _controller: ReaderApiBundle:Stories:random, limit: 10 }

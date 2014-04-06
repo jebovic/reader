@@ -1,0 +1,7 @@
+parameters:
+#    reader_api.example.class: Reader\Bundle\ApiBundle\Example
+
+services:
+#    reader_api.example:
+#        class: %reader_api.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

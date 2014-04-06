@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             new Reader\Bundle\FrontBundle\ReaderFrontBundle(),
             new \JMS\SerializerBundle\JMSSerializerBundle(),
             new \FOS\ElasticaBundle\FOSElasticaBundle(),
+            new Reader\Bundle\ApiBundle\ReaderApiBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
