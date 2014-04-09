@@ -55,9 +55,18 @@ class StoryRepository extends DocumentRepository
         {
             $qb->limit($limit);
         }
-        if ( !is_null( $siteId ) )
+        if ( !is_null( $siteId ) && !empty( $siteId ) )
         {
-            $qb->field('site.id')->equals( $siteId );
+            if ( is_array($siteId) )
+            {
+                if ( !empty( $siteId[0] ) )
+                {
+                    $qb->field('site.id')->in( $siteId );
+                }
+            }
+            else {
+                $qb->field('site.id')->equals( $siteId );
+            }
         }
 
         $qb->field('randomizer')->near( lcg_value(), 0 );

@@ -1,0 +1,23 @@
+fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
+    routing_loader:
+        default_format: json
+        include_format: false
+    view:
+        view_response_listener: 'force'
+    view:
+        formats:
+            jsonp: false
+            json: true
+            rss: false
+            xml: false
+        templating_formats:
+            html: true
+        mime_types:
+            json: ['application/json', 'application/x-json', 'application/vnd.example-com.foo+json']
+        force_redirects:
+            html: true
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
