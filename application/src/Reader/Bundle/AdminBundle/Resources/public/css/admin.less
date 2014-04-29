@@ -6,6 +6,7 @@
 body {
     background: #e9e9e9 url(../images/bg/tiny_grid.png) repeat 0 0;
     font: 13px/1.7em 'Open Sans';
+    padding-top: 57px;
 }
 .clearfix {
     *zoom: 1;
@@ -85,9 +86,6 @@ h6 {
 /*------------------------------------------------------------------
 [ Navbar / .navbar ]
 */
-.navbar.navbar-fixed-top {
-    position: static;
-}
 .navbar .container {
     position: relative;
 }
@@ -145,6 +143,56 @@ h6 {
 .navbar .nav li.dropdown.active > .dropdown-toggle,
 .navbar .nav li.dropdown.open.active > .dropdown-toggle {
     background-color: transparent;
+}
+
+.navbar .mainnav {
+    display: inline-block;
+    height: 42px;
+    padding: 0;
+    margin: 0;
+    float: left;
+}
+.navbar .mainnav > li {
+    float: left;
+    min-width: 50px;
+    height: 42px;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    list-style: none;
+}
+.navbar .mainnav > li > a {
+    display: block;
+    height: 100%;
+    padding: 0 15px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #636363;
+}
+.navbar .mainnav > li > a:hover {
+    color: #888;
+    text-decoration: none;
+}
+.navbar .mainnav > li > a > i {
+    position: relative;
+    top: 2px;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-top: 0px;
+    margin-bottom: 4px;
+    font-size: 20px;
+}
+.navbar .mainnav > li > a > span {
+    display: block;
+    padding-bottom: 2px;
+}
+.navbar .mainnav > li.open > a {
+    text-decoration: none;
+}
+.navbar .mainnav > li.active > a {
+    background: #333;
+    color: @primary;
 }
 /*------------------------------------------------------------------
 [ Subnavbar / .subnavbar ]

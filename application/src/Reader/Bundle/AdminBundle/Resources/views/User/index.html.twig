@@ -42,7 +42,7 @@
 
             function getUsers( page ) {
                 $.ajax({
-                    url: '/user/list/' + page + '/' + limit,
+                    url: '/admin/user/list/' + page + '/' + limit,
                     success: function(data) {
                         if ( data.success != false )
                         {

@@ -36,3 +36,15 @@ var Application = function () {
     }
 }();
 
+var offset = 60, navCloned = false;
+$(window).scroll(function () {
+    if ($(window).scrollTop() > offset && !navCloned) {
+        navCloned = true;
+        $('ul.mainnav').clone().prependTo('.navbar .container .nav-collapse').attr('id', 'clonedNav').show();
+    } else if ( $(window).scrollTop() > offset ) {
+        $('#clonedNav').show();
+    } else if ( $(window).scrollTop() < offset ) {
+        $('#clonedNav').hide();
+    }
+});
+

@@ -38,7 +38,7 @@
                 var $t = $( this );
                 $t.addClass('disabled');
                 $.ajax({
-                    url: '/story/delete/' + $t.attr('data-target'),
+                    url: '/admin/story/delete/' + $t.attr('data-target'),
                     success: function(data) {
                         if ( data.success )
                         {

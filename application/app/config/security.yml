@@ -20,8 +20,8 @@ security:
             security: false
 
         admin:
-            pattern:    ^/
-            request_matcher: reader_admin.firewall.request_matcher
+            pattern:    ^/admin
+            #request_matcher: reader_admin.firewall.request_matcher
             anonymous: ~
             provider: reader_users
             form_login:
@@ -43,5 +43,5 @@ security:
                 target: /
 
     access_control:
-        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY, host: %admin_host% }
-        - { path: ^/, roles: ROLE_ADMIN, host: %admin_host% }
+        - { path: ^/admin/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }

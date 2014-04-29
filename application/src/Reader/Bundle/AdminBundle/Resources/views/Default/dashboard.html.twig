@@ -38,7 +38,7 @@
 
             function getRandomStories() {
                 $.ajax({
-                    url: '/random_stories/' + limit,
+                    url: '/admin/random_stories/' + limit,
                     success: function(data) {
                         if ( data.success != false )
                         {
