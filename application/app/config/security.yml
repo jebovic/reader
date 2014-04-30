@@ -15,10 +15,6 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        login:
-            pattern:  ^/demo/secured/login$
-            security: false
-
         admin:
             pattern:    ^/admin
             #request_matcher: reader_admin.firewall.request_matcher
