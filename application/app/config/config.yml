@@ -93,9 +93,19 @@ doctrine_mongodb:
     document_managers:
         default:
             auto_mapping: true
+            metadata_cache_driver:
+                type: memcache
+                class: Doctrine\Common\Cache\MemcacheCache
+                host: localhost
+                port: 11211
+                instance_class: Memcache
 
 services:
     twig.extension.intl:
         class: Twig_Extensions_Extension_Intl
         tags:
             - { name: twig.extension }
+    memcached:
+        class: Memcached
+        calls:
+            - [ addServers, [ %memcached.servers% ]]

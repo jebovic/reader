@@ -312,7 +312,7 @@ class SiteController extends Controller
         {
             $storyRepository = $doctrine->getRepository('ReaderBundle:Story');
 
-            $stories = $storyRepository->findRandom( $site->getId(), $limit );
+            $stories = $storyRepository->findAllBySite( $site->getId(), $limit );
             $result  = array( 'success' => true, 'content' => '', 'count' => '' );
 
             $result['content'] = $this->render(

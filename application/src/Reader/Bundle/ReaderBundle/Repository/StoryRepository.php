@@ -12,26 +12,23 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class StoryRepository extends DocumentRepository
 {
-    public function findBySite( $siteId , $offset = false, $limit = false)
+    public function findBySite( $siteId, $offset = false, $limit = false )
     {
         $qb = $this->createQueryBuilder()
-            ->field('site.id')->equals( $siteId )
-            ->sort('page', 'asc')
-            ->sort('position', 'asc')
-            ->sort('grabbed', 'desc');
-        if ( $offset )
-        {
-            $qb->skip($offset);
+            ->field( 'site.id' )->equals( $siteId )
+            ->sort( 'page', 'asc' )
+            ->sort( 'position', 'asc' )
+            ->sort( 'grabbed', 'desc' );
+        if ( $offset ) {
+            $qb->skip( $offset );
         }
-        if ( $limit )
-        {
-            $qb->limit($limit);
+        if ( $limit ) {
+            $qb->limit( $limit );
         }
         $query      = $qb->getQuery();
         $results    = $query->execute();
         $searchHits = array();
-        foreach( $results as $searchHit )
-        {
+        foreach ( $results as $searchHit ) {
             $searchHits[] = $searchHit;
         }
 
@@ -40,45 +37,46 @@ class StoryRepository extends DocumentRepository
 
     public function countBySite( $siteId )
     {
-        $qb = $this->createQueryBuilder()
-            ->hydrate(false)
-            ->field('site.id')->equals( $siteId );
-        $query      = $qb->getQuery();
-        $count    = $query->execute()->count();
+        $qb    = $this->createQueryBuilder()
+            ->hydrate( false )
+            ->field( 'site.id' )->equals( $siteId );
+        $query = $qb->getQuery();
+        $count = $query->execute()->count();
         return $count;
     }
 
-    public function findRandom( $siteId = null, $limit = 10 )
+    public function findAllBySite( $siteId = null, $limit = 10, $offset = 0, $random = true )
     {
         $qb = $this->createQueryBuilder();
-        if ( $limit )
-        {
-            $qb->limit($limit);
+        if ( $limit ) {
+            $qb->limit( $limit );
         }
-        if ( !is_null( $siteId ) && !empty( $siteId ) )
-        {
-            if ( is_array($siteId) )
-            {
-                if ( !empty( $siteId[0] ) )
-                {
-                    $qb->field('site.id')->in( $siteId );
+
+        if ( !is_null( $siteId ) && !empty($siteId) ) {
+            if ( is_array( $siteId ) ) {
+                if ( !empty($siteId[0]) ) {
+                    $qb->field( 'site.id' )->in( $siteId );
                 }
-            }
-            else {
-                $qb->field('site.id')->equals( $siteId );
+            } else {
+                $qb->field( 'site.id' )->equals( $siteId );
             }
         }
 
-        $qb->field('randomizer')->near( lcg_value(), 0 );
-
-        $query      = $qb->getQuery();
-        $results    = $query->execute();
-        $searchHits = array();
-        foreach( $results as $searchHit )
-        {
-            $searchHits[] = $searchHit;
+        if ( $offset ) {
+            $qb->skip( $offset );
         }
 
-        return $searchHits;
+        if ( $random ) {
+            $qb->field( 'randomizer' )->near( lcg_value(), 0 );
+        } else {
+            $qb
+                ->sort( 'page', 'asc' )
+                ->sort( 'position', 'asc' )
+                ->sort( 'grabbed', 'desc' );
+        }
+
+        $query = $qb->getQuery();
+
+        return $query->toArray();
     }
 }

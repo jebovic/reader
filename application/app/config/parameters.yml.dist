@@ -8,3 +8,6 @@ parameters:
     node_modules:      [/usr/local/lib/node_modules]
     uglifyjs2_bin:     /usr/local/bin/uglifyjs
     uglifycss_bin:     /usr/local/bin/uglifycss
+
+    memcached.servers:
+        - { host: 127.0.0.1, port: 11211 }

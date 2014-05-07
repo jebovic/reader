@@ -14,7 +14,7 @@ class DefaultController extends Controller
         $limit = 500;
         $doctrine = $this->get('doctrine_mongodb');
         $storyRepository = $doctrine->getRepository('ReaderBundle:Story');
-        $stories = $storyRepository->findRandom(null, $limit);
+        $stories = $storyRepository->findAllBySite(null, $limit);
 
         return $this->render('ReaderFrontBundle:Default:index.html.twig', array('stories' => $stories));
     }

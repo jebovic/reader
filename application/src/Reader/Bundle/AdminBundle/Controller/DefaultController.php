@@ -24,7 +24,14 @@ class DefaultController extends Controller
      */
     public function dashboardAction()
     {
-        return $this->render( 'ReaderAdminBundle:Default:dashboard.html.twig', array() );
+        $response = new Response();
+        $response->setPublic();
+        $response->setMaxAge(3600);
+        $response->setSharedMaxAge(3600);
+        $response->headers->addCacheControlDirective('must-revalidate', true);
+        $response->setContent( $this->renderView( 'ReaderAdminBundle:Default:dashboard.html.twig', array() ) );
+
+        return $response;
     }
 
     /**
@@ -39,17 +46,22 @@ class DefaultController extends Controller
         $doctrine        = $this->get( 'doctrine_mongodb' );
         $storyRepository = $doctrine->getRepository( 'ReaderBundle:Story' );
         $response        = new Response();
+        $response = new Response();
+        $response->setPublic();
+        $response->setMaxAge(10);
+        $response->setSharedMaxAge(10);
+        $response->headers->addCacheControlDirective('must-revalidate', true);
         $response->headers->set( 'Content-Type', 'application/json' );
 
-        $stories = $storyRepository->findRandom( null, $limit );
+        $stories = $storyRepository->findAllBySite( null, $limit );
         $result  = array('success' => true, 'content' => '', 'count' => '');
 
-        $result['content'] = $this->render(
+        $result['content'] = $this->renderView(
             'ReaderAdminBundle:Default:stories.html.twig',
             array(
                 'stories' => $stories
             )
-        )->getContent();
+        );
         $response->setContent( json_encode( $result ) );
 
         return $response;
@@ -75,7 +87,6 @@ class DefaultController extends Controller
                 'error'         => $error,
             )
         );
-
     }
 
     public function securityCheckAction()
