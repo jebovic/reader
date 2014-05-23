@@ -23,6 +23,7 @@ security:
             form_login:
                 check_path: reader_admin_login_check
                 login_path: reader_admin_login
+                default_target_path: reader_admin_dashboard
             logout:
                 path:   reader_admin_logout
                 target: /
