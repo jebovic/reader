@@ -37,8 +37,9 @@ class SiteController extends ApiAbstractController
     public function cgetAction()
     {
         $memcached = $this->get('memcached');
+        $serializer = $this->get('jms_serializer');
         if ( $data = $memcached->get("site_list") ) {
-            $sites = $data;
+            $sites = $serializer->deserialize($data, 'array', 'json');
         }
         else
         {
@@ -46,7 +47,7 @@ class SiteController extends ApiAbstractController
             $siteRepository = $doctrine->getRepository('ReaderBundle:Site');
 
             $sites = $siteRepository->findAll();
-            $memcached->set("site_list", $sites, 86400);
+            $memcached->set("site_list", $serializer->serialize($sites, 'json'), 86400);
         }
 
         return $this->getView(
