@@ -12,7 +12,5 @@ parameters:
     memcached.servers:
         - { host: 127.0.0.1, port: 11211 }
 
-    session:
-        memcached:
-            prefix: readerSess
-            expire: 3600
+    session_memcached_prefix: readerSess
+    session_memcached_expire: 3600

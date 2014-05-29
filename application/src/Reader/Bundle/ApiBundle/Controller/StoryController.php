@@ -41,13 +41,14 @@ class StoryController extends ApiAbstractController
     public function cgetOrderedAction( Request $request, ParamFetcher $paramFetcher )
     {
         $memcached = $this->get( 'memcached' );
+        $serializer = $this->get('jms_serializer');
         $limit     = $paramFetcher->get( 'limit' ) ? $paramFetcher->get( 'limit' ) : 10;
         $offset    = $paramFetcher->get( 'offset' ) ? $paramFetcher->get( 'offset' ) : 0;
         $sites     = explode( ',', $paramFetcher->get( 'sites' ) );
         $cacheKey  = "stories_" . $limit . "_" . $offset . "_" . sha1( $paramFetcher->get( 'sites' ) );
 
         if ( $data = $memcached->get( $cacheKey ) ) {
-            $stories = $data;
+            $stories = $serializer->deserialize($data, 'array', 'json');
         }
         else
         {
@@ -55,7 +56,7 @@ class StoryController extends ApiAbstractController
             $storyRepository = $doctrine->getRepository( 'ReaderBundle:Story' );
 
             $stories = $storyRepository->findAllBySite( $sites, $limit, $offset, false );
-            $memcached->set( $cacheKey, $stories, 600 );
+            $memcached->set( $cacheKey, $serializer->serialize($stories, 'json'), 60 );
         }
 
         return $this->getView(
