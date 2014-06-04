@@ -30,7 +30,13 @@ class Grabber
         $crawler = $client
             ->setHeader('Content-Type', 'text/html; charset=utf-8')
             ->request('GET', $url);
-        $stories = $this->getStories( $crawler );
+        if ( $this->site->getDetails() )
+        {
+            $stories = $this->getFullStories( $crawler );
+        }
+        else {
+            $stories = $this->getStories( $crawler );
+        }
         return $stories;
     }
 
@@ -40,6 +46,26 @@ class Grabber
         $url        = $this->site->getUrl() . sprintf( $this->site->getUrlPattern(), $pageNumber );
 
         return $url;
+    }
+
+    protected function getFullStories(Crawler $crawler)
+    {
+        $listItemSelector = $this->site->getListItemSelector();
+        $detailsLinkSelector = $this->site->getDetailsLinkSelector();
+        $nodes           = $crawler->filter( $listItemSelector . ' ' . $detailsLinkSelector )->each(function ($node, $i) use( $detailsLinkSelector )
+        {
+            return $node->attr('href');
+        });
+        $stories = array();
+        foreach ( $nodes as $detailsUrl )
+        {
+            $client  = new GrabberClient();
+            $detailCrawler = $client
+                ->setHeader('Content-Type', 'text/html; charset=utf-8')
+                ->request('GET', $detailsUrl);
+            $stories[] = $this->getStories( $detailCrawler )[0];
+        }
+        return $stories;
     }
 
     protected function getStories(Crawler $crawler)
@@ -88,7 +114,7 @@ class Grabber
             if ( $titleSelector )
             {
                 try {
-                    $content['title'] = strip_tags($node->filter( $titleSelector )->first()->html(), $allowedTags);
+                    $content['title'] = trim(strip_tags($node->filter( $titleSelector )->first()->html()));
                 } catch ( \Exception $e)
                 {
                     // echo $e->getMessage();
@@ -97,7 +123,11 @@ class Grabber
             if ( $contentSelector )
             {
                 try {
-                    $content['html'] = strip_tags($node->filter( $contentSelector )->first()->html(), $allowedTags);
+                    $html = '';
+                    foreach ($node->filter( $contentSelector ) as $child) {
+                        $html .= $child->ownerDocument->saveHTML($child);
+                    }
+                    $content['html'] = trim(strip_tags($html, $allowedTags));
                 } catch ( \Exception $e)
                 {
                     // do something
@@ -105,7 +135,7 @@ class Grabber
             }
             else
             {
-                $content['html'] = strip_tags($node->html(), $allowedTags);
+                $content['html'] = trim(strip_tags($node->html(), $allowedTags));
             }
             if ( $content['html'] == '' && $content['title'] == '' )
             {

@@ -114,6 +114,18 @@ class SiteType extends AbstractType
                     'class' => 'pick-a-color',
                 ),
             ));
+        $builder->add( 'details', 'checkbox', array(
+            'label' => 'Two level grabbing ?',
+            'required' => false
+        ));
+        $builder->add( 'detailsLinkSelector', 'text', array(
+            'label' => 'Details link selector',
+            'required' => false
+        ));
+        $builder->add( 'listItemSelector', 'text', array(
+            'label' => 'List item selector',
+            'required' => false
+        ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

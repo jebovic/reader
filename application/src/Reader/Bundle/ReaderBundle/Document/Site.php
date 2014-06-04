@@ -27,6 +27,9 @@ class Site
     protected $logoPath;
     protected $logoTemp;
     protected $color;
+    protected $details;
+    protected $listItemSelector;
+    protected $detailsLinkSelector;
     /**
      * @var \MongoId $id
      */
@@ -492,6 +495,72 @@ class Site
     public function setColor($color)
     {
         $this->color = $color;
+        return $this;
+    }
+
+    /**
+     * Get details
+     *
+     * @return boolean
+     */
+    public function getDetails()
+    {
+        return $this->details;
+    }
+
+    /**
+     * Set details
+     *
+     * @param boolean $details
+     * @return self
+     */
+    public function setDetails( $details )
+    {
+        $this->details = $details;
+        return $this;
+    }
+
+    /**
+     * Get details link selector
+     *
+     * @return string
+     */
+    public function getDetailsLinkSelector()
+    {
+        return $this->detailsLinkSelector;
+    }
+
+    /**
+     * Set details link selector
+     *
+     * @param string $detailsLinkSelector
+     * @return self
+     */
+    public function setDetailsLinkSelector( $detailsLinkSelector )
+    {
+        $this->detailsLinkSelector = $detailsLinkSelector;
+        return $this;
+    }
+
+    /**
+     * Get list item selector
+     *
+     * @return string
+     */
+    public function getListItemSelector()
+    {
+        return $this->listItemSelector;
+    }
+
+    /**
+     * Set list item selector
+     *
+     * @param string $listItemSelector
+     * @return self
+     */
+    public function setListItemSelector( $listItemSelector )
+    {
+        $this->listItemSelector = $listItemSelector;
         return $this;
     }
 }

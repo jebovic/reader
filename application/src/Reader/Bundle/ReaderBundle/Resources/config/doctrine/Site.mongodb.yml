@@ -33,6 +33,12 @@ Reader\Bundle\ReaderBundle\Document\Site:
             type: string
         color:
             type: string
+        details:
+            type: boolean
+        listItemSelector:
+            type: string
+        detailsLinkSelector:
+            type: string
     referenceMany:
         categories:
             targetDocument: Reader\Bundle\ReaderBundle\Document\Category

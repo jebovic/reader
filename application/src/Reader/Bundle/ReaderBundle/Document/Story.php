@@ -71,7 +71,7 @@ class Story
      */
     public function getTitle()
     {
-        return $this->title;
+        return trim($this->title);
     }
 
     /**
