@@ -26,19 +26,33 @@ security:
                 default_target_path: reader_admin_dashboard
             logout:
                 path:   reader_admin_logout
-                target: /
+                target: /admin
 
         front:
             pattern:    ^/
-            anonymous: true
-            provider: reader_users
-            form_login:
-                check_path: reader_front_login_check
-                login_path: reader_front_login
+            anonymous: ~
+            logout: true
             logout:
                 path:   reader_front_logout
-                target: /
+                target: reader_front_homepage
+            oauth:
+                resource_owners:
+                    google:            google_login
+                login_path:        /login
+                use_forward:       false
+                failure_path:      /login
+
+                oauth_user_provider:
+                    service: reader_user.oauth_provider
+            #provider: reader_users
+            #form_login:
+            #    check_path: reader_front_login_check
+            #    login_path: reader_front_login
+            #logout:
+            #    path:   reader_front_logout
+            #    target: /
 
     access_control:
+        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: ROLE_ADMIN }

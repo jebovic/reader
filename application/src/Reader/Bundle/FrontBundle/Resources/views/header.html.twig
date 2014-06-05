@@ -26,14 +26,11 @@
                     </ul>
                 {% else %}
                     <a class="login btn btn-palette2 btn-small" href="#">Sign in</a>
-                    <form action="{{ path("reader_front_login_check") }}" method="post" id="loginForm" class="form-signin hidden">
-                        <h2 class="auth">Authentication</h1>
-                        {% if error|default(false) %}
-                            <div class="alert alert-error">{{ error.message }}</div>
-                        {% endif %}
-                        <input type="text" class="input-block-level" placeholder="Username" id="username" name="_username" value="{{ last_username|default('') }}">
-                        <input type="password" class="input-block-level" placeholder="Password" id="password" name="_password">
-                        <button class="btn btn-large btn-palette2 btn-block" type="submit">Sign in</button>
+                    <form class="hidden form-signin" id="loginForm">
+                        <h2 class="auth">Authentication</h2>
+                        {% for owner in hwi_oauth_resource_owners() %}
+                            <a href="{{ hwi_oauth_login_url(owner) }}" class="login-provider {{owner}}">{{ owner | trans({}, 'HWIOAuthBundle') }}</a> <br />
+                        {% endfor %}
                     </form>
                 {% endif %}
             </div><!--/.nav-collapse -->

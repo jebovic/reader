@@ -1,7 +1,7 @@
 parameters:
-#    reader_user.example.class: Reader\Bundle\UserBundle\Example
+    reader_user.oauth_provider.class: Reader\Bundle\UserBundle\Auth\OAuthProvider
 
 services:
-#    reader_user.example:
-#        class: %reader_user.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    reader_user.oauth_provider:
+        class: %reader_user.oauth_provider.class%
+        arguments: [@service_container, @doctrine_mongodb.odm.document_manager]

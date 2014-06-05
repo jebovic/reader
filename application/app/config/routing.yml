@@ -1,11 +1,11 @@
 reader_api:
     resource: "@ReaderApiBundle/Resources/config/routing.yml"
-    host:     '%public_host%'
+    #host:     '%public_host%'
     prefix:   /api
 
 reader_front:
     resource: "@ReaderFrontBundle/Resources/config/routing.yml"
-    host:     '%public_host%'
+    #host:     '%public_host%'
     prefix:   /
 
 reader_user:
@@ -18,11 +18,18 @@ reader_grabber:
 
 reader:
     resource: "@ReaderBundle/Resources/config/routing.yml"
-    host:     '%public_host%'
+    #host:     '%public_host%'
     prefix:   /
 
 reader_admin:
     resource: "@ReaderAdminBundle/Resources/config/routing.yml"
-    host:     '%public_host%'
+    #host:     '%public_host%'
     prefix:   /admin
 
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /connect
+
+hwi_oauth_login:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix:   /login

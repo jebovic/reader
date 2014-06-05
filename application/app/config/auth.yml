@@ -1,0 +1,8 @@
+hwi_oauth:
+    firewall_name: front
+    resource_owners:
+        google:
+            type:                google
+            client_id:           "826340305331-cq525g9v91m0hr7d7m6a05lsnuqo0gjn.apps.googleusercontent.com"
+            client_secret:       "DJ0bXsEqUG8uu_j0zHbUl5uP"
+            scope:               "email profile"

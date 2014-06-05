@@ -3,6 +3,7 @@ imports:
     - { resource: security.yml }
     - { resource: search.yml }
     - { resource: rest.yml }
+    - { resource: auth.yml }
 
 framework:
     #esi:             ~
