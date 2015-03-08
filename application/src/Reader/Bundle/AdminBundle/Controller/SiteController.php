@@ -3,11 +3,13 @@
 namespace Reader\Bundle\AdminBundle\Controller;
 
 use Reader\Bundle\ReaderBundle\Document\Story;
+use Reader\Bundle\ReaderBundle\ReaderBundle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Reader\Bundle\ReaderBundle\Document\Site;
 use Reader\Bundle\AdminBundle\Form\Type\SiteType;
+use GuzzleHttp\Client as HttpClient;
 
 class SiteController extends Controller
 {
@@ -30,6 +32,55 @@ class SiteController extends Controller
                 'categories' => $categories
             )
         );
+    }
+
+    /**
+     * Iframe of site
+     * @param $id
+     * @param $page
+     * @return mixed
+     * @throws \Doctrine\ODM\MongoDB\LockException
+     */
+    public function iframeAction( $id, $page )
+    {
+        $this->get('profiler')->disable();
+        $doctrine       = $this->get('doctrine_mongodb');
+        $siteRepository = $doctrine->getRepository('ReaderBundle:Site');
+        $site           = $siteRepository->find( $id );
+
+        $grabber = $this->get('reader_grabber');
+        $iframeUrl = $grabber
+            ->init($site, $page)
+            ->getUrl();
+
+        $client = new HttpClient();
+        $content = $client->get( $iframeUrl )->getBody();
+        $response = new Response();
+        $response->setContent($content);
+        return $response;
+    }
+
+    /**
+     * View site sandbox
+     * @param string $id
+     * @return mixed
+     */
+    public function sandboxAction( $id )
+    {
+        $doctrine       = $this->get('doctrine_mongodb');
+        $siteRepository = $doctrine->getRepository('ReaderBundle:Site');
+        $site           = $siteRepository->find( $id );
+
+        if ( !is_null( $site ) )
+        {
+            return $this->render(
+                'ReaderAdminBundle:Site:sandbox.html.twig',
+                array(
+                    'site'         => $site
+                )
+            );
+        }
+        return $this->redirect( $this->generateUrl('reader_admin_site') );
     }
 
     /**

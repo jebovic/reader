@@ -66,6 +66,14 @@ reader_admin_site_purge:
     pattern:  /site/purge/{id}
     defaults: { _controller: ReaderAdminBundle:Site:purgeStories }
 
+reader_admin_site_sandbox:
+    pattern:  /site/sandbox/{id}
+    defaults: { _controller: ReaderAdminBundle:Site:sandbox }
+
+reader_admin_site_iframe:
+    pattern:  /site/iframe/{id}/{page}
+    defaults: { _controller: ReaderAdminBundle:Site:iframe }
+
 reader_admin_story_delete:
     pattern:  /story/delete/{id}
     defaults: { _controller: ReaderAdminBundle:Story:delete }

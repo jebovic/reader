@@ -14,11 +14,13 @@ class Grabber
      */
     protected $site;
     protected $page;
+    protected $url;
 
     public function init(Site $site, $page)
     {
         $this->site = $site;
         $this->page = $page;
+        $this->url  = $this->constructUrl();
 
         return $this;
     }
@@ -26,10 +28,10 @@ class Grabber
     public function grab()
     {
         $client  = new GrabberClient();
-        $url     = $this->constructUrl();
+
         $crawler = $client
             ->setHeader('Content-Type', 'text/html; charset=utf-8')
-            ->request('GET', $url);
+            ->request('GET', $this->url);
         if ( $this->site->getDetails() )
         {
             $stories = $this->getFullStories( $crawler );
@@ -145,5 +147,21 @@ class Grabber
         });
 
         return $nodes;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     */
+    protected function setUrl($url)
+    {
+        $this->url = $url;
     }
 }

@@ -13,7 +13,7 @@ class DefaultController extends Controller
     {
         $response = new Response();
 
-        $response->setContent( '' );
+        $response->setContent( $this->renderView( 'ReaderAdminBundle:Default:test.html.twig', array() ) );
 
         return $response;
     }

@@ -8,6 +8,11 @@
 {% block content %}
     <div class="container">
         <div class="row">
+            <div class="span12 marginBottom10">
+                <a class="btn btn-large btn-block btn-warning" href="{{ path('reader_admin_site_sandbox', { id: site.id }) }}">Sandbox</a>
+            </div>
+        </div>
+        <div class="row">
             <div class="span6">
                 {% include "ReaderAdminBundle:Widget:siteDetails.html.twig" with {'table': true} %}
             </div>

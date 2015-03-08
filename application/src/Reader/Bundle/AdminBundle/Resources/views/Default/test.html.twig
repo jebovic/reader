@@ -1,0 +1,158 @@
+{% extends "ReaderAdminBundle::layout.html.twig" %}
+
+{% block header %}
+    {% set active = 'test' %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Welcome to the Reader admin Sandbox</h1>
+        <div class="row">
+            <iframe id="testIframe" name="testFrame" src="{{ path('reader_admin_site_iframe') }}" frameborder="0" width="100%" height="4000"></iframe>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script src="{{ asset("bundles/readeradmin/js/jquery.dom.path.js") }}"></script>
+    <script type="text/javascript">
+
+        (function($){
+            $.clonerlay = function(el, options){
+                var base = this;
+                base.$el = $(el);
+                base.el  = el;
+
+                base.$el.data("clonerlay", base);
+
+                base.init = function(){
+                    base.options = $.extend({},$.clonerlay.defaultOptions, options);
+                    if ( base.options.autoClone === true )
+                    {
+                        base.clone = base.createClone();
+                        base.clone.prependTo( $('body') );
+                    }
+                    console.log('clonerlay: init');
+                };
+
+                base.createClone = function()
+                {
+                    var clone = $('<div/>');
+
+                    clone.click( function(e){
+                        e.preventDefault();
+                        e.stopPropagation();
+                        base.clone.remove();
+                        base.clone = null;
+                        return true;
+                    });
+
+                    var cloneCss = $.extend({}, {
+                        width:  base.$el.outerWidth(),
+                        height: base.$el.outerHeight(),
+                        top:    null === base.options.container ? base.$el.offset().top : base.$el.offset().top + base.options.container.offset().top,
+                        left:   null === base.options.container ? base.$el.offset().left : base.$el.offset().left + base.options.container.offset().left
+                    }, base.options.clone);
+
+                    clone.css( cloneCss );
+
+                    return clone;
+                };
+
+                base.$el.click( function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if ( base.clone )
+                    {
+                        base.clone.remove();
+                        base.clone = null;
+                    } else {
+                        base.clone = base.createClone();
+                        base.clone.prependTo( $('body') );
+
+                        if ( base.options.exploration === true ) {
+                            var siblings = base.$el.findSiblings();
+                            if ( siblings !== null ) {
+                                siblings.clonerlay({
+                                    container:   base.options.container,
+                                    exploration: false,
+                                    autoClone:   true
+                                });
+                                $.pnotify( finalPath );
+                            }
+                        }
+                    }
+
+                    return true;
+                });
+
+                base.init();
+            };
+
+            $.clonerlay.defaultOptions = {
+                clone: {
+                    position:   'absolute',
+                    background: 'rgba(0,200,200, 0.4)',
+                    margin:     '0 0 0 0',
+                    padding:    '0 0 0 0',
+                    "z-index":    '1020'
+                },
+                container: null,
+                exploration: false,
+                autoClone: false
+            };
+
+            var maxSiblingsLoops = 20;
+            var loopLocker = 0;
+            var finalPath = '';
+
+            $.fn.findSiblings = function(){
+                var origin      = $(this),
+                    minSiblings = 2;
+                loopLocker++;
+
+                if ( origin.attr('class') !== undefined ) {
+                    var classList = origin.attr('class').split(/\s+/);
+                    if ( classList.length ) {
+                        for (var i = 0; i < classList.length; i++) {
+                            var className = classList[i];
+                            if ( origin.siblings('.' + className).length >= minSiblings )
+                            {
+                                finalPath = origin.parent().getDomPath() + ' > .' + className;
+                                return origin.siblings('.' + className);
+
+                            }
+                        }
+                    }
+                }
+                if ( origin.siblings().length >= minSiblings )
+                {
+                    finalPath = origin.getDomPath();
+                    return origin.siblings();
+                } else {
+                    return loopLocker > maxSiblingsLoops ? null : null;//origin.parent().findSiblings();
+                }
+            };
+
+            $.fn.clonerlay = function(options){
+                return this.each(function(){
+                    (new $.clonerlay(this, options));
+                });
+            };
+
+        })(jQuery);
+
+        jQuery(document).ready(function($) {
+            $('#testIframe').load(function() {
+                var iframeContent = $('#testIframe').contents();
+                iframeContent.find('div,section,article').clonerlay({
+                    container: $('#testIframe'),
+                    exploration: true
+                });
+            });
+        });
+    </script>
+{% endblock %}
