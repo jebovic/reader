@@ -14,3 +14,6 @@ parameters:
 
     session_memcached_prefix: readerSess
     session_memcached_expire: 3600
+
+    mongodb_server:   mongodb://localhost:27017
+    mongodb_database: jba_reader

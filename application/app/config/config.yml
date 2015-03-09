@@ -91,18 +91,18 @@ bc_bootstrap:
 doctrine_mongodb:
     connections:
         default:
-            server: mongodb://localhost:27017
+            server: %mongodb_server%
             options: {}
-    default_database: reader
+    default_database: %mongodb_database%
     document_managers:
         default:
             auto_mapping: true
-            metadata_cache_driver:
-                type: memcache
-                class: Doctrine\Common\Cache\MemcacheCache
-                host: localhost
-                port: 11211
-                instance_class: Memcache
+            #metadata_cache_driver:
+            #    type: memcache
+            #    class: Doctrine\Common\Cache\MemcacheCache
+            #    host: localhost
+            #    port: 11211
+            #    instance_class: Memcache
 
 services:
     twig.extension.intl:
