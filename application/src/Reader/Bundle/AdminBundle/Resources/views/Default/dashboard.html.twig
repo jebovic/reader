@@ -9,6 +9,11 @@
     <div class="container">
         <h1>Welcome to the Reader admin</h1>
         <div class="row">
+            <div class="span12 marginBottom10">
+                <a class="btn btn-warning btn-block" href="{{ path('reader_admin_sandbox') }}">Source creation wizard</a>
+            </div>
+        </div>
+        <div class="row">
             <div class="span12">
                 {% include "ReaderAdminBundle:Widget:siteStoriesRandom.html.twig" with {'table': false} %}
             </div>

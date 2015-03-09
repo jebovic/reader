@@ -53,7 +53,19 @@ class SiteController extends Controller
             ->init($site, $page)
             ->getUrl();
 
-        $client = new HttpClient();
+        if ( $proxyUrl = $this->container->getParameter('reader_proxy') )
+        {
+            $client = new HttpClient(array(
+            'defaults' => array(
+                'proxy' => $proxyUrl
+                )
+            ));
+        }
+        else
+        {
+            $client = new HttpClient();
+        }
+        
         $content = $client->get( $iframeUrl )->getBody();
         $response = new Response();
         $response->setContent($content);

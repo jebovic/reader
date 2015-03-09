@@ -109,3 +109,13 @@ reader_admin_test:
 reader_admin_search:
     pattern:  /search
     defaults: { _controller: ReaderAdminBundle:Search:simple }
+
+reader_admin_sandbox:
+    pattern:  /sandbox
+    defaults: { _controller: ReaderAdminBundle:Default:sandbox }
+
+reader_admin_iframe:
+    pattern:  /iframe/{frameUrl}
+    defaults: { _controller: ReaderAdminBundle:Default:iframe }
+    requirements:
+        frameUrl: .+

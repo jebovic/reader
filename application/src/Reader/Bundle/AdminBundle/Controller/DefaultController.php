@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContext;
+use GuzzleHttp\Client as HttpClient;
 
 class DefaultController extends Controller
 {
@@ -31,6 +32,55 @@ class DefaultController extends Controller
         $response->headers->addCacheControlDirective('must-revalidate', true);
         $response->setContent( $this->renderView( 'ReaderAdminBundle:Default:dashboard.html.twig', array() ) );
 
+        return $response;
+    }
+
+    /**
+     * View site sandbox
+     * @return mixed
+     */
+    public function sandboxAction( Request $request )
+    {
+        $frameUrl = false;
+        if ( $request->request->get('frameUrl') )
+        {
+            $frameUrl = $request->request->get('frameUrl');
+        }
+        return $this->render(
+            'ReaderAdminBundle:Default:sandbox.html.twig',
+            array(
+                'frameUrl'         => $frameUrl
+            )
+        );
+    }
+
+    /**
+     * Iframe of site
+     * @param $id
+     * @param $page
+     * @return mixed
+     * @throws \Doctrine\ODM\MongoDB\LockException
+     */
+    public function iframeAction( $frameUrl )
+    {
+        $this->get('profiler')->disable();
+
+        if ( $proxyUrl = $this->container->getParameter('reader_proxy') )
+        {
+            $client = new HttpClient(array(
+            'defaults' => array(
+                'proxy' => $proxyUrl
+                )
+            ));
+        }
+        else
+        {
+            $client = new HttpClient();
+        }
+        
+        $content = $client->get( $frameUrl )->getBody();
+        $response = new Response();
+        $response->setContent($content);
         return $response;
     }
 
