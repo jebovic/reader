@@ -29,8 +29,8 @@
     {{ parent() }}
     <script src="{{ asset("bundles/readeradmin/js/jquery.dom.path.js") }}"></script>
     <script type="text/javascript">
-
         (function($){
+
             $.clonerlay = function(el, options){
                 var base = this;
                 base.$el = $(el);
@@ -55,15 +55,43 @@
                     }
                 };
 
+                base.removeClone = function()
+                {
+                    if ( base.clone )
+                    {
+                        base.clone.remove();
+                        base.clone = null;
+                        $.clonerlay.createCloneOnMouseOver = true;
+                    }
+                };
+
                 base.createClone = function()
                 {
                     var clone = $('<div/>');
 
                     clone.click( function(e){
-                        e.preventDefault();
-                        e.stopPropagation();
-                        base.clone.remove();
-                        base.clone = null;
+                        interceptEvent(e);
+
+                        if ( base.clone.attr('data-clonerlay-selected') == 'false' )
+                        {
+                            $.clonerlay.createCloneOnMouseOver = false;
+                            base.clone.attr('data-clonerlay-selected', true);
+                            base.clone.css('background', 'rgba(0,220,50,0.4)');
+                            if ( base.options.exploration === true ) {
+                                var siblings = base.$el.findSiblings();
+                                if ( siblings !== null ) {
+                                    siblings.clonerlay({
+                                        container:   base.options.container,
+                                        exploration: false,
+                                        autoClone:   true
+                                    });
+                                    $.pnotify( finalPath );
+                                }
+                            }
+                            return true;
+                        }
+                        base.removeClone();
+
                         return true;
                     });
 
@@ -74,35 +102,32 @@
                         left:   null === base.options.container ? base.$el.offset().left : base.$el.offset().left + base.options.container.offset().left
                     }, base.options.clone);
 
+                    clone.attr('data-clonerlay-selected', false);
+
                     clone.css( cloneCss );
+                    clone.attr('data-from-path', base.$el.getDomPath());
 
                     return clone;
                 };
 
-                base.$el.click( function(e){
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    if ( base.clone )
+                base.$el.on('mouseover', function(e){
+                    if ( $.clonerlay.createCloneOnMouseOver === true )
                     {
-                        base.clone.remove();
-                        base.clone = null;
-                    } else {
+                        interceptEvent(e);
                         base.clone = base.createClone();
                         base.clone.prependTo( $('body') );
-
-                        if ( base.options.exploration === true ) {
-                            var siblings = base.$el.findSiblings();
-                            if ( siblings !== null ) {
-                                siblings.clonerlay({
-                                    container:   base.options.container,
-                                    exploration: false,
-                                    autoClone:   true
-                                });
-                                $.pnotify( finalPath );
-                            }
-                        }
                     }
+                });
+
+                base.$el.on('mouseout', function(e){
+                    if ( $.clonerlay.createCloneOnMouseOver === true ) {
+                        interceptEvent(e);
+                        base.removeClone();
+                    }
+                });
+
+                base.$el.click( function(e){
+                    interceptEvent(e);
 
                     return true;
                 });
@@ -111,6 +136,8 @@
             };
 
             $.clonerlay.firstInit = true;
+
+            $.clonerlay.createCloneOnMouseOver = true;
 
             $.clonerlay.defaultOptions = {
                 clone: {
@@ -131,10 +158,25 @@
 
             $.fn.findSiblings = function(){
                 var origin      = $(this),
-                        minSiblings = 2;
+                    tagName     = origin.getTagName(),
+                    minSiblings = 4;
                 loopLocker++;
 
                 if ( origin.attr('class') !== undefined ) {
+                    var classPath = '.' + origin.attr('class').trim().split(/\s+/).join('.');
+                    console.log(classPath);
+
+                    if ( classPath !== '.' && classPath !== '..' )
+                    {
+                        var firstTry  = origin.closest('body').find(classPath !== '.' ? tagName + classPath : tagName);
+
+                        if ( firstTry.length >= ( minSiblings * 2 ) )
+                        {
+                            finalPath = 'body ' + classPath;
+                            return firstTry;
+                        }
+                    }
+
                     var classList = origin.attr('class').split(/\s+/);
                     if ( classList.length ) {
                         for (var i = 0; i < classList.length; i++) {
@@ -143,7 +185,6 @@
                             {
                                 finalPath = origin.parent().getDomPath() + ' > .' + className;
                                 return origin.siblings('.' + className);
-
                             }
                         }
                     }
@@ -157,6 +198,10 @@
                 }
             };
 
+            $.fn.getTagName = function() {
+                return this.prop("tagName").toLowerCase();
+            };
+
             $.fn.clonerlay = function(options){
                 return this.each(function(){
                     (new $.clonerlay(this, options));
@@ -164,11 +209,14 @@
             };
 
         })(jQuery);
-
+        function interceptEvent(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
         jQuery(document).ready(function($) {
             $('#testIframe').load(function() {
                 var iframeContent = $('#testIframe').contents();
-                iframeContent.find('div,section,article').clonerlay({
+                iframeContent.find('body > * > * div, body > * > * section, body > * > * article, body > * > * li').not('.row, .container').clonerlay({
                     container: $('#testIframe'),
                     exploration: true
                 });
